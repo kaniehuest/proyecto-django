@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main class="container mt-3">
+    <div class="row">
+        <div class="card card-body">
+            <div class="container">
+                <div class="d-flex justify-content-between ">
+                    <h3>Paciente: {{registro.paciente.user.username}}</h3>
+                    <h3>Fecha: {{registro.fecha_registro}}</h3>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <h2 class="my-3">HISTORIAL</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <th>FECHA</th>
+                        <th>DIAGNÓSTICO</th>
+                        <th>TRATAMIENTO</th>
+                    </tr>
+                    {% for i in ultimos_3_registros %}
+                    <tr>
+                        <td>{{i.fecha_registro}}</td>
+                        <td>{{i.diagnostico}}</td>
+                        <td>{{i.tratamiento}}</td>
+                    </tr>
+                    {% empty %}
+                    {% endfor %}
+                </table>
+            </div>
+            <hr>
+
+            <h2 class="text-center text-decoration-underline my-3">Confirmación de registro de nueva consulta</h2>
+            <div class="d-flex justify-content-between">
+                <p>TIPO DE REGISTRO: {{registro.tipo_consulta}}</p>
+                <p>MÉDICO TRATANTE: {{registro.medico.username}}</p>
+            </div>
+            <p class="mt-3">Órdenes de exámenes solicitados:</p>
+            <div class="row justify-content-md-center">
+                <table class="table table-striped col mx-2">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">PRINCIPALES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% if registro.examen_principal_bioquimico %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Bioquímico</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_principal_orina %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Orina</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_principal_heces %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Heces</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_principal_glucosa %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Glocusa</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped col mx-2">
+                    <thead>
+                        <th></th>
+                        <th>RESONANCIA MAGNÉTICA</th>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            {% if registro.examen_resonancia_magnetica_torax %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Tórax</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_resonancia_magnetica_columna %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Columna</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_resonancia_magnetica_cabeza %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Cabeza</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_resonancia_magnetica_abdomen %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Abdomen</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped col mx-2">
+                    <thead>
+                        <th></th>
+                        <th>ECOGRAFÍA</th>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            {% if registro.examen_ecografia_cabeza %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Cabeza</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_ecografia_torax %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Tórax</td>
+                        </tr>
+                        <tr>
+                            {% if registro.examen_ecografia_abdomen %}
+                            <td>Sí</td>
+                            {% else %}
+                            <td>No</td>
+                            {% endif %}
+                            <td>Abdomen</td>
+                        </tr>
+                        {% if registro.examen_ecografia_brazo %}
+                        <td>Sí</td>
+                        {% else %}
+                        <td>No</td>
+                        {% endif %}
+                        <td>Brazo</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+                <div class="card card-body my-3">
+                    <h3>DIAGNÓSTICO:</h3>
+                    {% if registro.diagnostico %}
+                    <p>{{registro.diagnostico}}</p>
+                    {% else %}
+                    <p>No ha ingresado un diagnóstico.</p>
+                    {% endif %}
+                </div>
+                <div class="card card-body ">
+                    <h3>TRATAMIENTO</h3>
+                    {% if registro.tratamiento %}
+                    <p>{{registro.tratamiento}}</p>
+                    {% else %}
+                    <p>No ha ingresado un tratamiento.</p>
+                    {% endif %}
+                </div>
+                <div class="card card-body mt-3">
+                    <h3>OBSERVACIONES:</h3>
+                    {% if registro.diagnostico %}
+                    <p>{{registro.observaciones}}</p>
+                    {% else %}
+                    <p>No ha ingresado observaciones.</p>
+                    {% endif %}
+                </div>
+            <div class="row text-center justify-content-center mt-3 ">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="submit" name="boton_cancelar" class="btn btn-danger" value="Cancelar"></input>
+                    <input type="submit" name="boton_confirmar" class="btn btn-success" value="Confirmar"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {{registro.diagnostico}}
+    </ol>
+  </nav>
+  <h2 class="mb-3">
+  </h2>
+  <div class="row mb-3">
+    <div class="col-md-6 col-sm-8 col-12">
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-10">
+          <strong>Questions</strong>
+        </div>
+        <div class="col-2">
+          <strong>Answers</strong>
+        </div>
+      </div>
+    </div>
+    <div class="list-group list-group-flush list-group-formset">
+  </div> -->
+{% endblock %}

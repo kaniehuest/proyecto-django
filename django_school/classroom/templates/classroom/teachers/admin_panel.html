@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Seleccione una opción</h2>
+  <p class="lead">Haga click en un botón para administrar las cuentas</p>
+  <a href="{% url 'teacher_signup' %}" class="btn btn-student btn-lg" role="button">Crear nueva cuenta de médico</a>
+  <a href="#" class="btn btn-teacher btn-lg" role="button">Listar cuentas de médico</a>
+  <a href="#" class="btn btn-danger has-danger btn-lg" role="button">Eliminar una cuenta de médico</a>
+{% endblock %}

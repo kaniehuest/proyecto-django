@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'teachers:quiz_change_list' %}">Página principal</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Agregar nuevo registro</li>
+  </ol>
+</nav>
+
+<div class="card card-body">
+  <form method="post">
+    {% csrf_token %}
+    <div class="container">
+      <div class="d-flex justify-content-between ">
+        <h3>Paciente: {{paciente}}</h3>
+        <h3>Medico: {{medico}}</h3>
+      </div>
+    </div>
+    <hr>
+    <div class="text-center">
+      <h2>Historial</h2>
+      <table class="table">
+        <thead>
+          <th>FECHA</th>
+          <th>DIAGNÓSTICO</th>
+          <th>TRATAMIENTO</th>
+        </thead>
+        {% for i in ultimas_3_fichas %}
+        <tbody>
+          <tr>
+            <td>{{i.fecha_registro}}</td>
+            <td>{{i.diagnostico}}</td>
+            <td>{{i.tratamiento}}</td>
+          </tr>
+        </tbody>
+        {% empty %}
+        {% endfor %}
+      </table>
+    </div>
+    <hr>
+    <h2 class="text-center">REGISTRO DE NUEVA CONSULTA</h2>
+    <hr>
+    <p class="fs-2">ÓRDENES DE EXÁMENES:</p>
+    <div class="row">
+
+      <!--EXAMENES PRINCIPALES INPUT-->
+      <div class="card card-body  col-4">
+        <p class="text-center fs-4">PRINCIPALES</p>
+
+        <!--EXAMEN PRINCIPAL BIOQUIMICO  INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_principal_bioquimico" id="principalBioquimico">
+            </div>
+          </div>
+          <label class="form-control" for="principalBioquimico">
+            Bioquímico
+          </label>
+        </div>
+
+        <!--EXAMEN PRINCIPAL ORINA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_principal_orina" id="principalOrina">
+            </div>
+          </div>
+          <label class="form-control" for="principalOrina">
+            Orina
+          </label>
+        </div>
+
+
+        <!--EXAMEN PRINCIPAL HECES INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_principal_heces" id="principalHeces">
+            </div>
+          </div>
+          <label class="form-control" for="principalHeces">
+            Heces
+          </label>
+        </div>
+
+
+        <!--EXAMEN PRINCIPAL GLUCOSA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_principal_glucosa" id="principalGlucosa">
+            </div>
+          </div>
+          <label class="form-control" for="principalGlucosa">
+            Glucosa
+          </label>
+        </div>
+      </div>
+
+      <!--EXAMENES RESONANCIA MAGNÉTICA INPUT-->
+      <div class="card card-body col-4">
+        <p class="text-center fs-4">RESONANCIA MAGNÉTICA</p>
+
+
+
+        <!--EXAMEN RM TÓRAX INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_resonancia_magnetica_torax" id="resonanciaMagneticaTorax">
+            </div>
+          </div>
+          <label class="form-control" for="resonanciaMagneticaTorax">
+            Tórax
+          </label>
+        </div>
+
+        <!--EXAMEN RM COLUMNA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_resonancia_magnetica_columna" id="resonanciaMagneticaColumna">
+            </div>
+          </div>
+          <label class="form-control" for="resonanciaMagneticaColumna">
+            Columna
+          </label>
+        </div>
+
+
+        <!--EXAMEN RM CABEZA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_resonancia_magnetica_cabeza" id="resonanciaMagneticaCabeza">
+            </div>
+          </div>
+          <label class="form-control" for="resonanciaMagneticaCabeza">
+            Cabeza
+          </label>
+        </div>
+
+
+        <!--EXAMEN RM CABEZA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_resonancia_magnetica_abdomen" id="resonanciaMagneticaAbdomen">
+            </div>
+          </div>
+          <label class="form-control" for="resonanciaMagneticaAbdomen">
+            Abdomen
+          </label>
+        </div>
+
+
+      </div>
+
+      <!--EXAMENES ECOGRAFÍA-->
+      <div class="card card-body col-4">
+        <p class="text-center fs-4">ECOGRAFÍA</p>
+
+
+        <!--EXAMEN ECO CABEZA INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_ecografia_cabeza" id="ecografiaCabeza">
+            </div>
+          </div>
+          <label class="form-control" for="ecografiaCabeza">
+            Cabeza
+          </label>
+        </div>
+
+
+        <!--EXAMEN ECO TÓRAX INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_ecografia_torax" id="ecografiaTorax">
+            </div>
+          </div>
+          <label class="form-control" for="ecografiaTorax">
+            Tórax
+          </label>
+        </div>
+
+        <!--EXAMEN ECO ABDOMEN INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_ecografia_abdomen" id="ecografiaAbdomen">
+            </div>
+          </div>
+          <label class="form-control" for="ecografiaAbdomen">
+            Abdomen
+          </label>
+        </div>
+
+        <!--EXAMEN ECO BRAZO INPUT-->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" name="examen_ecografia_brazo" id="ecografiaBrazo">
+            </div>
+          </div>
+          <label class="form-control" for="ecografiaBrazo">
+            Brazo
+          </label>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="row mt-3 justify-content-center">
+      <div class="card card-body col-6">
+        <p class="fs-2">DIAGNÓSTICO:</p>
+        <div class="input-control">
+          <textarea class="form-control" name="diagnostico" id="diagnostico" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="card card-body col-6">
+        <p class="fs-2">TRATAMIENTO:</p>
+        <div class="input-group">
+          <textarea class="form-control" id="tratamiento" name="tratamiento" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3 justify-content-center">
+      <div class="card card-body col-6 mr-">
+        <p class="fs-2">OBSERVACIONES:</p>
+        <div class="input-group">
+          <textarea class="form-control" id="observaciones" name="observaciones" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="card card-body col-6">
+        <p class="fs-2">TIPO DE CONSULTA</p>
+
+
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input  type="radio" name="tipo_consulta" id="consultaMedica" value="Consulta Médica" checked>
+            </div>
+          </div>
+          <label class="form-control" for="consultaMedica">Consulta Médica</label>
+        </div>
+
+
+        <div class="input-group mt-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="radio" name="tipo_consulta" id="revisionExamenes"
+                value="Revisión de Exámenes" >
+            </div>
+          </div>
+          <label class="form-control" for="revisionExamenes">Revisión de exámenes</label>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+    <div class="text-center mt-3">
+      <a href="{% url 'teachers:quiz_change_list' %}" class="btn btn-danger" role="button">Cancelar</a>
+      <button type="submit" class="btn btn-success">Registrar</button>
+    </div>
+
+
+
+  </form>
+</div>
+{% endblock %}
