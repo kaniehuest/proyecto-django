@@ -1,3 +1,4 @@
+from ast import Try
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import login
@@ -39,225 +40,90 @@ def registro_home(request):
     if request.method == 'GET':
         return render(request, template_name)
 
-    if 'crear_nuevo_registro' in request.POST:
-        paciente_username = request.POST.get('search')
-        medico_username = request.user.username
-        paciente_pk = User.objects.filter(
-            username=paciente_username).values()[0]['id']
-        request.session['info_paciente'] = paciente_pk
-        request.session['info_medico'] = medico_username
+    # Obtiene el nombre desde el campo de input, si el nombre existe entonces devuelve el ID del usuario
+    # y redirije a una página donde se listan todas sus fichas médicas
+    try:
+        nombre_paciente = request.POST.get('search')
+        id_paciente = User.objects.filter(
+            username=nombre_paciente).values()[0]['id']
+    except:
+        return render(request, template_name, {'mensaje': 'Error, el nombre no se encuentra registrado'})
 
-        return redirect('registro_add')
+    if 'crear_nuevo_registro' in request.POST:
+        return redirect('registrar_ficha', id_paciente)
 
     elif 'visualizar_registro' in request.POST:
-        username = request.POST.get('search')
-        user_id = User.objects.filter(username=username).values()[0]['id']
-        listado_registros = Registro.objects.filter(paciente_id=user_id)
-
-        return render(request, template_name, {'registros': listado_registros})
+        return redirect('listar_fichas', id_paciente)
 
     return render(request, template_name)
 
 
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizCreateView(CreateView):
-    model = Quiz
-    fields = ('name', 'subject', )
-    template_name = 'classroom/teachers/quiz_add_form.html'
+@login_required
+@teacher_required
+def crear_registro(request, id_paciente):
+    if request.method == 'GET':
+        username_medico = request.user.username
+        id_medico = User.objects.filter(
+            username=username_medico).values()[0]['id']
+        ultimas_3_fichas = Registro.objects.filter(paciente_id=id_paciente)[:3]
+        username_paciente = User.objects.filter(
+            id=id_paciente).values()[0]['username']
+        data = {'medico': username_medico,
+                'id_medico': id_medico ,
+                'paciente': username_paciente,
+                'id_paciente': id_paciente,
+                'ultimas_3_fichas': ultimas_3_fichas}
 
-    def form_valid(self, form):
-        quiz = form.save(commit=False)
-        quiz.owner = self.request.user
-        quiz.save()
-        messages.success(
-            self.request, 'The quiz was created with success! Go ahead and add some questions now.')
-        return redirect('teachers:quiz_change', quiz.pk)
+        return render(request, 'classroom/teachers/registro_form.html', data)
+    
+    id_paciente= request.POST.get('id_paciente')
+    nombre_paciente= request.POST.get('paciente')
+
+    id_medico = request.POST.get('id_medico')
+    nombre_medico = request.POST.get('medico')
+
+    # Exámenes principales
+    examen_principal_bioquimico= request.POST.get('examen_principal_bioquimico')
+    examen_principal_orina = request.POST.get('examen_principal_orina')
+    examen_principal_heces = request.POST.get('examen_principal_heces')
+    examen_principal_glucosa = request.POST.get('examen_principal_glucosa')
+
+    # Exámenes resonancia magnética
+    examen_resonancia_magnetica_torax = request.POST.get('examen_resonancia_magnetica_torax')
+    examen_resonancia_magnetica_columna = request.POST.get('examen_resonancia_magnetica_columna')
+    examen_resonancia_magnetica_cabeza = request.POST.get('examen_resonancia_magnetica_cabeza')
+    examen_resonancia_magnetica_abdomen = request.POST.get('examen_resonancia_magnetica_abdomen')
+
+    # Exámenes ecografía
+    examen_ecografia_cabeza = request.POST.get('examen_ecografia_cabeza')
+    examen_ecografia_torax = request.POST.get('examen_ecografia_torax')
+    examen_ecografia_abdomen = request.POST.get('examen_ecografia_abdomen')
+    examen_ecografia_brazo = request.POST.get('examen_ecografia_brazo')
+
+    diagnostico = request.POST.get('diagnostico')
+    tratamiento = request.POST.get('tratamiento')
+    observaciones = request.POST.get('observaciones')
+    
+    tipo_consulta = request.POST.get('tipo_consulta')
+
+    data = {"id_paciente"}
+
+    return render(request, 'classroom/teachers/confirmation.html')
+    
+
 
 
 @login_required
 @teacher_required
-def crear_registro(request):
-    medico_username = request.session['info_medico']
-    paciente_pk = request.session['info_paciente']
-    template_name = 'classroom/teachers/registro_form.html'
-    ultimas_3_fichas = Registro.objects.filter(paciente_id=paciente_pk)[:3]
-    data = {'medico': medico_username,
-            'paciente': paciente_pk,
-            'ultimas_3_fichas': ultimas_3_fichas}
-    return render(request, template_name, data)
-
-
-@login_required
-@teacher_required
-def registroInfo(request, numero=None):
+def info_fichas(request, id_ficha):
     template_name = 'classroom/teachers/registro_info.html'
-    registro = Registro.objects.get(pk=numero)
+    registro = Registro.objects.get(id=id_ficha)
     identificador_paciente = registro.paciente_id
 
     ultimos_3_registros = Registro.objects.filter(
-        paciente_id=identificador_paciente)[:2]
+        paciente_id=identificador_paciente)[:3]
 
     return render(request, template_name, {'registro': registro, 'ultimos_3_registros': ultimos_3_registros})
-
-
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizUpdateView(UpdateView):
-    model = Quiz
-    fields = ('name', 'subject', )
-    context_object_name = 'quiz'
-    template_name = 'classroom/teachers/quiz_change_form.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['questions'] = self.get_object().questions.annotate(
-            answers_count=Count('answers'))
-        return super().get_context_data(**kwargs)
-
-    def get_queryset(self):
-        '''
-        This method is an implicit object-level permission management
-        This view will only match the ids of existing quizzes that belongs
-        to the logged in user.
-        '''
-        return self.request.user.quizzes.all()
-
-    def get_success_url(self):
-        return reverse('teachers:quiz_change', kwargs={'pk': self.object.pk})
-
-
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizDeleteView(DeleteView):
-    model = Quiz
-    context_object_name = 'quiz'
-    template_name = 'classroom/teachers/quiz_delete_confirm.html'
-    success_url = reverse_lazy('teachers:quiz_change_list')
-
-    def delete(self, request, *args, **kwargs):
-        quiz = self.get_object()
-        messages.success(
-            request, 'The quiz %s was deleted with success!' % quiz.name)
-        return super().delete(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.request.user.quizzes.all()
-
-
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuizResultsView(DetailView):
-    model = Quiz
-    context_object_name = 'quiz'
-    template_name = 'classroom/teachers/quiz_results.html'
-
-    def get_context_data(self, **kwargs):
-        quiz = self.get_object()
-        taken_quizzes = quiz.taken_quizzes.select_related(
-            'student__user').order_by('-date')
-        total_taken_quizzes = taken_quizzes.count()
-        quiz_score = quiz.taken_quizzes.aggregate(average_score=Avg('score'))
-        extra_context = {
-            'taken_quizzes': taken_quizzes,
-            'total_taken_quizzes': total_taken_quizzes,
-            'quiz_score': quiz_score
-        }
-        kwargs.update(extra_context)
-        return super().get_context_data(**kwargs)
-
-    def get_queryset(self):
-        return self.request.user.quizzes.all()
-
-
-@login_required
-@teacher_required
-def question_add(request, pk):
-    # By filtering the quiz by the url keyword argument `pk` and
-    # by the owner, which is the logged in user, we are protecting
-    # this view at the object-level. Meaning only the owner of
-    # quiz will be able to add questions to it.
-    quiz = get_object_or_404(Quiz, pk=pk, owner=request.user)
-
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            question = form.save(commit=False)
-            question.quiz = quiz
-            question.save()
-            messages.success(
-                request, 'You may now add answers/options to the question.')
-            return redirect('teachers:question_change', quiz.pk, question.pk)
-    else:
-        form = QuestionForm()
-
-    return render(request, 'classroom/teachers/question_add_form.html', {'quiz': quiz, 'form': form})
-
-
-@login_required
-@teacher_required
-def question_change(request, quiz_pk, question_pk):
-    # Simlar to the `question_add` view, this view is also managing
-    # the permissions at object-level. By querying both `quiz` and
-    # `question` we are making sure only the owner of the quiz can
-    # change its details and also only questions that belongs to this
-    # specific quiz can be changed via this url (in cases where the
-    # user might have forged/player with the url params.
-    quiz = get_object_or_404(Quiz, pk=quiz_pk, owner=request.user)
-    question = get_object_or_404(Question, pk=question_pk, quiz=quiz)
-
-    AnswerFormSet = inlineformset_factory(
-        Question,  # parent model
-        Answer,  # base model
-        formset=BaseAnswerInlineFormSet,
-        fields=('text', 'is_correct'),
-        min_num=2,
-        validate_min=True,
-        max_num=10,
-        validate_max=True
-    )
-
-    if request.method == 'POST':
-        form = QuestionForm(request.POST, instance=question)
-        formset = AnswerFormSet(request.POST, instance=question)
-        if form.is_valid() and formset.is_valid():
-            with transaction.atomic():
-                form.save()
-                formset.save()
-            messages.success(
-                request, 'Question and answers saved with success!')
-            return redirect('teachers:quiz_change', quiz.pk)
-    else:
-        form = QuestionForm(instance=question)
-        formset = AnswerFormSet(instance=question)
-
-    return render(request, 'classroom/teachers/question_change_form.html', {
-        'quiz': quiz,
-        'question': question,
-        'form': form,
-        'formset': formset
-    })
-
-
-@method_decorator([login_required, teacher_required], name='dispatch')
-class QuestionDeleteView(DeleteView):
-    model = Question
-    context_object_name = 'question'
-    template_name = 'classroom/teachers/question_delete_confirm.html'
-    pk_url_kwarg = 'question_pk'
-
-    def get_context_data(self, **kwargs):
-        question = self.get_object()
-        kwargs['quiz'] = question.quiz
-        return super().get_context_data(**kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        question = self.get_object()
-        messages.success(
-            request, 'The question %s was deleted with success!' % question.text)
-        return super().delete(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return Question.objects.filter(quiz__owner=self.request.user)
-
-    def get_success_url(self):
-        question = self.get_object()
-        return reverse('teachers:quiz_change', kwargs={'pk': question.quiz_id})
 
 
 @login_required
@@ -266,8 +132,6 @@ def admin_panel(request):
     return render(request, 'classroom/teachers/admin_panel.html')
 
 
-@login_required
-@teacher_required
-def SearchResultView(ListView):
-    model = Student
-    template_name = 'search_results.html'
+def listar_fichas(request, id):
+    fichas = Registro.objects.filter(paciente_id=id)
+    return render(request, 'classroom/teachers/listar_fichas.html', {'fichas': fichas})
