@@ -1,18 +1,9 @@
-from ast import Try
-from django.http import HttpResponse
-from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.db.models import Avg, Count
-from django.forms import inlineformset_factory
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.shortcuts import redirect, render
+from django.views.generic import (CreateView)
 
-from ..decorators import teacher_required, superuser_required, student_required
+from ..decorators import teacher_required, superuser_required
 from ..forms import TeacherSignUpForm
 from .forms import PostForm
 from ..models import User, Registro
@@ -36,7 +27,7 @@ class TeacherSignUpView(CreateView):
 @login_required
 @teacher_required
 def registro_home(request):
-    template_name = 'classroom/teachers/registro_home.html'
+    template_name = 'medicos/registro_home.html'
 
     if request.method == 'GET':
         return render(request, template_name)
@@ -74,7 +65,7 @@ def crear_registro(request, id_paciente):
                 'nombre_paciente': nombre_paciente,
                 'ultimas_3_fichas': ultimas_3_fichas}
 
-        return render(request, 'classroom/teachers/registro_form.html', data)
+        return render(request, 'medicos/registro_form.html', data)
 
     # Exámenes principales
     examen_principal_bioquimico = request.POST.get(
@@ -147,14 +138,14 @@ def confirmar_registro(request):
             ficha = ficha.save()
             del request.session
             return redirect('home')
-    return render(request, 'classroom/teachers/confirmation.html', data)
+    return render(request, 'medicos/confirmation.html', data)
 
 
 
 @login_required
 @teacher_required
 def info_fichas(request, id_ficha):
-    template_name = 'classroom/teachers/registro_info.html'
+    template_name = 'medicos/registro_info.html'
     registro = Registro.objects.get(id=id_ficha)
     identificador_paciente = registro.paciente_id
 
@@ -167,11 +158,11 @@ def info_fichas(request, id_ficha):
 @login_required
 @superuser_required
 def admin_panel(request):
-    return render(request, 'classroom/teachers/admin_panel.html')
+    return render(request, 'admin/admin_panel.html')
 
 
 @login_required
 @teacher_required
 def listar_fichas(request, id):
     fichas = Registro.objects.filter(paciente_id=id)
-    return render(request, 'classroom/teachers/listar_fichas.html', {'fichas': fichas})
+    return render(request, 'medicos/listar_fichas.html', {'fichas': fichas})

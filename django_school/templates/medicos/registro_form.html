@@ -4,7 +4,7 @@
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'teachers:quiz_change_list' %}">Página principal</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Página principal</a></li>
     <li class="breadcrumb-item active" aria-current="page">Registrar datos médicos</li>
   </ol>
 </nav>
@@ -263,7 +263,7 @@
   </div>
 
   <div class="text-center mt-3">
-    <a href="{% url 'teachers:quiz_change_list' %}" class="btn btn-danger" role="button">Cancelar</a>
+    <a href="{% url 'home' %}" class="btn btn-danger" role="button">Cancelar</a>
     <button type="submit" class="btn btn-success">Registrar</button>
   </div>
 </form>

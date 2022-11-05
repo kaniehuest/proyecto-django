@@ -105,8 +105,6 @@ class Registro(models.Model):
     fecha_registro = models.DateTimeField(default=now, blank=True)
 
     # Tipo de cita medica
-    # False -> consulta medica
-    # True -> revision examenes
     tipo_consulta = models.CharField(default="Consulta Medica", max_length=50)
 
     # Examenes
