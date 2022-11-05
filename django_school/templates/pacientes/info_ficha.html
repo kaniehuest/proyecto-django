@@ -3,18 +3,17 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Página principal</a></li>
-        <li class="breadcrumb-item">Registrar datos médicos</li>
-        <li class="breadcrumb-item active" aria-current="page">Confirmar datos</li>
+        <li class="breadcrumb-item active" aria-current="page">Información ficha médica</li>
     </ol>
 </nav>
 <div class="container">
     <div class="d-flex justify-content-between">
-        <h3>Paciente: <b>{{nombre_paciente}}</b></h3>
-        <h3>Médico tratante: <b>{{nombre_medico}}</b></h3>
+        <h3>Paciente: <b>{{registro.paciente.user.username}}</b></h3>
+        <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
     </div>
     <div class="d-flex justify-content-between">
-        <!--<h5>Fecha: {{data.fecha_registro}}</h5>-->
-        <h5>Tipo de consulta: {{tipo_consulta}}</h5>
+        <h5>Fecha: {{registro.fecha_registro}}</h5>
+        <h5>Tipo de registro: {{registro.tipo_consulta}}</h5>
     </div>
 </div>
 <hr>
@@ -29,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in ultimas_3_fichas %}
+            {% for i in ultimos_3_registros %}
             <tr>
                 <td>{{i.fecha_registro}}</td>
                 <td>{{i.diagnostico}}</td>
@@ -51,7 +50,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_principal_bioquimico %}
+                {% if registro.examen_principal_bioquimico %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -59,7 +58,7 @@
                 <td>Bioquímico</td>
             </tr>
             <tr>
-                {% if examen_principal_orina %}
+                {% if registro.examen_principal_orina %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -67,7 +66,7 @@
                 <td>Orina</td>
             </tr>
             <tr>
-                {% if examen_principal_heces %}
+                {% if registro.examen_principal_heces %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -75,7 +74,7 @@
                 <td>Heces</td>
             </tr>
             <tr>
-                {% if examen_principal_glucosa %}
+                {% if registro.examen_principal_glucosa %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -91,7 +90,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_resonancia_magnetica_torax %}
+                {% if registro.examen_resonancia_magnetica_torax %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -99,7 +98,7 @@
                 <td>Tórax</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_columna %}
+                {% if registro.examen_resonancia_magnetica_columna %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -107,7 +106,7 @@
                 <td>Columna</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_cabeza %}
+                {% if registro.examen_resonancia_magnetica_cabeza %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -115,7 +114,7 @@
                 <td>Cabeza</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_abdomen %}
+                {% if registro.examen_resonancia_magnetica_abdomen %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -131,7 +130,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_ecografia_cabeza %}
+                {% if registro.examen_ecografia_cabeza %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -139,7 +138,7 @@
                 <td>Cabeza</td>
             </tr>
             <tr>
-                {% if examen_ecografia_torax %}
+                {% if registro.examen_ecografia_torax %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -147,14 +146,14 @@
                 <td>Tórax</td>
             </tr>
             <tr>
-                {% if examen_ecografia_abdomen %}
+                {% if registro.examen_ecografia_abdomen %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
                 {% endif %}
                 <td>Abdomen</td>
             </tr>
-            {% if examen_ecografia_brazo %}
+            {% if registro.examen_ecografia_brazo %}
             <td>Sí</td>
             {% else %}
             <td>No</td>
@@ -167,32 +166,31 @@
 </div>
 <div class="card card-body my-3">
     <h3>DIAGNÓSTICO:</h3>
-    {% if diagnostico %}
-    <p>{{diagnostico}}</p>
+    {% if registro.diagnostico %}
+    <p>{{registro.diagnostico}}</p>
     {% else %}
     <p>No ha ingresado un diagnóstico.</p>
     {% endif %}
 </div>
 <div class="card card-body ">
     <h3>TRATAMIENTO</h3>
-    {% if tratamiento %}
-    <p>{{tratamiento}}</p>
+    {% if registro.tratamiento %}
+    <p>{{registro.tratamiento}}</p>
     {% else %}
     <p>No ha ingresado un tratamiento.</p>
     {% endif %}
 </div>
 <div class="card card-body mt-3">
     <h3>OBSERVACIONES:</h3>
-    {% if diagnostico %}
-    <p>{{observaciones}}</p>
+    {% if registro.diagnostico %}
+    <p>{{registro.observaciones}}</p>
     {% else %}
     <p>No ha ingresado observaciones.</p>
     {% endif %}
 </div>
 <div class="text-center justify-content-center mt-3 ">
-    <form method="POST">
-        {% csrf_token %}
-        <button class="btn btn-primary btn-lg" name="confirmar_registro_ficha">Confirmar registro de ficha</button>
-    </form>
+    <a href="{% url 'home' %}">
+        <button class="btn btn-secondary">Cerrar</button>
+    </a>
 </div>
 {% endblock %}

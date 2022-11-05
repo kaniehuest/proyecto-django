@@ -4,8 +4,8 @@ from classroom.views import classroom, students, teachers
 
 urlpatterns = [
     path('', include('classroom.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/signup/', classroom.SignUpView.as_view(), name='signup'),
-    path('accounts/signup/student/', students.StudentSignUpView.as_view(), name='student_signup'),
-    path('accounts/signup/teacher/', teachers.TeacherSignUpView.as_view(), name='teacher_signup'),
+    path('cuentas/', include('django.contrib.auth.urls')),
+    path('cuentas/registrar/', classroom.SignUpView.as_view(), name='signup'),
+    path('cuentas/registrar/paciente/', students.StudentSignUpView.as_view(), name='student_signup'),
+    path('cuentas/registrar/medico/', teachers.TeacherSignUpView.as_view(), name='registrar_medico'),
 ]

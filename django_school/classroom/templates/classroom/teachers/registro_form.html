@@ -13,12 +13,8 @@
   {% csrf_token %}
   <div class="container">
     <div class="d-flex justify-content-between ">
-      <h3>Paciente: <b>{{paciente}}</b></h3>
-      <h3>Médico: <b>{{medico}}</b></h3>
-      <input type="hidden" name="id_paciente" value="{{paciente}}">
-      <input type="hidden" name="id_paciente" value="{{id_paciente}}">
-      <input type="hidden" name="id_medico" value="{{medico}}">
-      <input type="hidden" name="id_medico" value="{{id_medico}}">
+      <h3>Paciente: <b>{{nombre_paciente}}</b></h3>
+      <h3>Médico: <b>{{nombre_medico}}</b></h3>
     </div>
   </div>
   <hr>

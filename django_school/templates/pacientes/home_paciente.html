@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Página principal</li>
+    </ol>
+</nav>
+<div class="card">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Nombre del médico</th>
+                <th>Nombre del paciente</th>
+                <th>Tipo de consulta</th>
+                <th>Fecha</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ficha in fichas %}
+            <tr>
+                <td class="align-middle">{{ficha.medico.username}}</td>
+                <td class="align-middle">{{ficha.paciente.user.username}}</td>
+                <td class="align-middle"><span class="badge badge-primary"
+                        style="background-color: #28a745">{{ficha.tipo_consulta}}</span></td>
+                <td class="align-middle">{{ficha.fecha_registro}}</td>
+                <td class="text-right">
+                    <a href="{% url 'pacientes:info_fichas_paciente' ficha.id %}" class="btn btn-primary">Ver datos</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="bg-light text-center font-italic" colspan="4">Sin datos disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

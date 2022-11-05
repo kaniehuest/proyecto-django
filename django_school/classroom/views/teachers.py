@@ -12,9 +12,10 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from ..decorators import teacher_required, superuser_required
-from ..forms import BaseAnswerInlineFormSet, QuestionForm, TeacherSignUpForm, RegistroForm
-from ..models import Answer, Question, Quiz, User, Registro, Student
+from ..decorators import teacher_required, superuser_required, student_required
+from ..forms import TeacherSignUpForm
+from .forms import PostForm
+from ..models import User, Registro
 
 
 class TeacherSignUpView(CreateView):
@@ -23,7 +24,7 @@ class TeacherSignUpView(CreateView):
     template_name = 'registration/signup_form.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'teacher'
+        kwargs['user_type'] = 'médico'
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -61,38 +62,36 @@ def registro_home(request):
 @login_required
 @teacher_required
 def crear_registro(request, id_paciente):
+    ultimas_3_fichas = Registro.objects.filter(paciente_id=id_paciente)[:3]
+    nombre_medico = request.user.username
+    id_medico = User.objects.filter(
+        username=nombre_medico).values()[0]['id']
+    nombre_paciente = User.objects.filter(
+        id=id_paciente).values()[0]['username']
+
     if request.method == 'GET':
-        username_medico = request.user.username
-        id_medico = User.objects.filter(
-            username=username_medico).values()[0]['id']
-        ultimas_3_fichas = Registro.objects.filter(paciente_id=id_paciente)[:3]
-        username_paciente = User.objects.filter(
-            id=id_paciente).values()[0]['username']
-        data = {'medico': username_medico,
-                'id_medico': id_medico ,
-                'paciente': username_paciente,
-                'id_paciente': id_paciente,
+        data = {'nombre_medico': nombre_medico,
+                'nombre_paciente': nombre_paciente,
                 'ultimas_3_fichas': ultimas_3_fichas}
 
         return render(request, 'classroom/teachers/registro_form.html', data)
-    
-    id_paciente= request.POST.get('id_paciente')
-    nombre_paciente= request.POST.get('paciente')
-
-    id_medico = request.POST.get('id_medico')
-    nombre_medico = request.POST.get('medico')
 
     # Exámenes principales
-    examen_principal_bioquimico= request.POST.get('examen_principal_bioquimico')
+    examen_principal_bioquimico = request.POST.get(
+        'examen_principal_bioquimico')
     examen_principal_orina = request.POST.get('examen_principal_orina')
     examen_principal_heces = request.POST.get('examen_principal_heces')
     examen_principal_glucosa = request.POST.get('examen_principal_glucosa')
 
     # Exámenes resonancia magnética
-    examen_resonancia_magnetica_torax = request.POST.get('examen_resonancia_magnetica_torax')
-    examen_resonancia_magnetica_columna = request.POST.get('examen_resonancia_magnetica_columna')
-    examen_resonancia_magnetica_cabeza = request.POST.get('examen_resonancia_magnetica_cabeza')
-    examen_resonancia_magnetica_abdomen = request.POST.get('examen_resonancia_magnetica_abdomen')
+    examen_resonancia_magnetica_torax = request.POST.get(
+        'examen_resonancia_magnetica_torax')
+    examen_resonancia_magnetica_columna = request.POST.get(
+        'examen_resonancia_magnetica_columna')
+    examen_resonancia_magnetica_cabeza = request.POST.get(
+        'examen_resonancia_magnetica_cabeza')
+    examen_resonancia_magnetica_abdomen = request.POST.get(
+        'examen_resonancia_magnetica_abdomen')
 
     # Exámenes ecografía
     examen_ecografia_cabeza = request.POST.get('examen_ecografia_cabeza')
@@ -103,13 +102,52 @@ def crear_registro(request, id_paciente):
     diagnostico = request.POST.get('diagnostico')
     tratamiento = request.POST.get('tratamiento')
     observaciones = request.POST.get('observaciones')
-    
+
     tipo_consulta = request.POST.get('tipo_consulta')
 
-    data = {"id_paciente"}
+    data = {'paciente': id_paciente,
+            #'nombre_paciente': nombre_paciente,
+            'medico': id_medico,
+            #'nombre_medico': nombre_medico,
 
-    return render(request, 'classroom/teachers/confirmation.html')
-    
+            'examen_principal_bioquimico': examen_principal_bioquimico,
+            'examen_principal_orina': examen_principal_orina,
+            'examen_principal_heces': examen_principal_heces,
+            'examen_principal_glucosa': examen_principal_glucosa,
+
+            'examen_resonancia_magnetica_torax': examen_resonancia_magnetica_torax,
+            'examen_resonancia_magnetica_columna': examen_resonancia_magnetica_columna,
+            'examen_resonancia_magnetica_cabeza': examen_resonancia_magnetica_cabeza,
+            'examen_resonancia_magnetica_abdomen': examen_resonancia_magnetica_abdomen,
+
+            'examen_ecografia_cabeza': examen_ecografia_cabeza,
+            'examen_ecografia_torax': examen_ecografia_torax,
+            'examen_ecografia_abdomen': examen_ecografia_abdomen,
+            'examen_ecografia_brazo': examen_ecografia_brazo,
+
+            'diagnostico': diagnostico,
+            'tratamiento': tratamiento,
+            'observaciones': observaciones,
+
+            'tipo_consulta': tipo_consulta,
+            #'ultimas_3_fichas': ultimas_3_fichas
+            }
+
+    request.session['ficha'] = data
+    return redirect('confirmacion')
+
+@login_required
+@teacher_required
+def confirmar_registro(request):
+    data = request.session['ficha']
+    if 'confirmar_registro_ficha' in request.POST:
+        ficha = PostForm(data)
+
+        if ficha.is_valid():
+            ficha = ficha.save()
+            del request.session
+            return redirect('home')
+    return render(request, 'classroom/teachers/confirmation.html', data)
 
 
 
@@ -132,6 +170,8 @@ def admin_panel(request):
     return render(request, 'classroom/teachers/admin_panel.html')
 
 
+@login_required
+@teacher_required
 def listar_fichas(request, id):
     fichas = Registro.objects.filter(paciente_id=id)
     return render(request, 'classroom/teachers/listar_fichas.html', {'fichas': fichas})
