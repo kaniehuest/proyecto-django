@@ -12,12 +12,12 @@ urlpatterns = [
     path('fichas/confirmacion/', teachers.confirmar_registro, name='confirmacion'),
 
     path('pacientes/', include(([
-        path('', students.home_paciente, name='quiz_list'),
+        path('', students.home_paciente, name='home'),
         path('fichas/info/<int:id_ficha>/', students.info_fichas, name='info_fichas_paciente'),
     ], 'classroom'), namespace='pacientes')),
 
     path('medicos/', include(([
-        path('', teachers.registro_home, name='quiz_change_list'),
+        path('', teachers.registro_home, name='home'),
         path('fichas/info/<int:id_ficha>/', teachers.info_fichas, name='info_fichas'),
     ], 'classroom'), namespace='medicos')),
 ]

@@ -1,10 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.forms.utils import ValidationError
 
-from classroom.models import (Answer, Question, Student, StudentAnswer,
-                              Subject, User, Registro)
+from classroom.models import (User, Registro, Paciente)
 
 
 class TeacherSignUpForm(UserCreationForm):
@@ -39,12 +37,6 @@ class RegistroForm(forms.ModelForm):
 
 
 class StudentSignUpForm(UserCreationForm):
-    interests = forms.ModelMultipleChoiceField(
-        queryset=Subject.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
-
     class Meta(UserCreationForm.Meta):
         model = User
 
@@ -53,18 +45,6 @@ class StudentSignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.is_student = True
         user.save()
-        student = Student.objects.create(user=user)
-        student.interests.add(*self.cleaned_data.get('interests'))
+        student = Paciente.objects.create(user=user)
         return user
-
-
-# class StudentInterestsForm(forms.ModelForm):
-#     class Meta:
-#         model = Student
-#         fields = ('interests', )
-#         widgets = {
-#             'interests': forms.CheckboxSelectMultiple
-#         }
-
-
 

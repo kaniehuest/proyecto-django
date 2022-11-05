@@ -1,4 +1,3 @@
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView
@@ -43,4 +42,4 @@ class StudentSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         #login(self.request, user)
-        return redirect('pacientes:home')
+        return redirect('medicos:home')

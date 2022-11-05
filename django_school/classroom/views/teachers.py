@@ -9,19 +9,6 @@ from .forms import PostForm
 from ..models import User, Registro
 
 
-class TeacherSignUpView(CreateView):
-    model = User
-    form_class = TeacherSignUpForm
-    template_name = 'registration/signup_form.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'médico'
-        return super().get_context_data(**kwargs)
-
-    def form_valid(self, form):
-        user = form.save()
-        #login(self.request, user)
-        return redirect('admin_panel')
 
 
 @login_required
@@ -166,3 +153,18 @@ def admin_panel(request):
 def listar_fichas(request, id):
     fichas = Registro.objects.filter(paciente_id=id)
     return render(request, 'medicos/listar_fichas.html', {'fichas': fichas})
+
+
+class TeacherSignUpView(CreateView):
+    model = User
+    form_class = TeacherSignUpForm
+    template_name = 'registration/signup_form.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'médico'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        #login(self.request, user)
+        return redirect('admin_panel')

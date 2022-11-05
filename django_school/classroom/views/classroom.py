@@ -9,9 +9,9 @@ class SignUpView(TemplateView):
 def home(request):
     if request.user.is_authenticated:
         if request.user.is_teacher:
-            return redirect('medicos:quiz_change_list')
+            return redirect('medicos:home')
         elif request.user.is_superuser:
             return redirect('admin_panel')
         else:
-            return redirect('pacientes:quiz_list')
+            return redirect('pacientes:home')
     return render(request, 'home.html')
