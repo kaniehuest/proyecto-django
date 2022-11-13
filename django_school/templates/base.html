@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Django School{% endblock %}</title>
-    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <title>{% block title %}Clínica{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/clinica.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Clicker+Script" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-2f186091/css/fontello.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-c746628a/css/fontello.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-92fe68f6/css/fontello.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
     {% if user.is_authenticated and user.is_teacher %}
       <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
@@ -26,9 +28,11 @@
                   Consultorio
                   {% if user.is_authenticated %}
                     {% if user.is_teacher %}
-                      <span class="icon-feather" data-toggle="tooltip" data-placement="right" title="Perfil de médico"></span>
+                      <span class="icon-user-md" data-toggle="tooltip" data-placement="right" title="Perfil de médico"></span>
+                    {% elif user.is_superuser %}
+                      <span class="icon-star" data-toggle="tooltip" data-placement="right" title="Perfil de administrador"></span>
                     {% else %}
-                      <span class="icon-graduation-cap" data-toggle="tooltip" data-placement="right" title="Perfil de paciente"></span>
+                      <span class="icon-user" data-toggle="tooltip" data-placement="right" title="Perfil de paciente"></span>
                     {% endif %}
                   {% endif %}
                 </a>
@@ -39,7 +43,6 @@
                 <p class="pt-3">Sesión iniciada como <strong>{{ user.username }}</strong>. <a href="{% url 'logout' %}">Cerrar sesión</a>.</p>
               {% else %}
                 <a href="{% url 'login' %}" class="btn btn-light" role="button">Iniciar sesión</a>
-                <!-- <a href="{% url 'signup' %}" class="btn btn-primary" role="button">Registrarse</a> -->
               {% endif %}
             </div>
           </div>

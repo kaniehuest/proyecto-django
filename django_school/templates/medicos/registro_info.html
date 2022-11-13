@@ -36,6 +36,11 @@
                 <td>{{i.tratamiento}}</td>
             </tr>
             {% empty %}
+            <tr>
+                <td>Vacío</td>
+                <td>Vacío</td>
+                <td>Vacío</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
@@ -165,7 +170,7 @@
     </table>
 
 </div>
-<div class="card card-body my-3">
+<div class="card card-body my-3 bg-light">
     <h3>DIAGNÓSTICO:</h3>
     {% if registro.diagnostico %}
     <p>{{registro.diagnostico}}</p>
@@ -173,7 +178,7 @@
     <p>No ha ingresado un diagnóstico.</p>
     {% endif %}
 </div>
-<div class="card card-body ">
+<div class="card card-body bg-light">
     <h3>TRATAMIENTO</h3>
     {% if registro.tratamiento %}
     <p>{{registro.tratamiento}}</p>
@@ -181,7 +186,7 @@
     <p>No ha ingresado un tratamiento.</p>
     {% endif %}
 </div>
-<div class="card card-body mt-3">
+<div class="card card-body mt-3 bg-light">
     <h3>OBSERVACIONES:</h3>
     {% if registro.diagnostico %}
     <p>{{registro.observaciones}}</p>

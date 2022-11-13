@@ -9,8 +9,6 @@ from .forms import PostForm
 from ..models import User, Registro
 
 
-
-
 @login_required
 @teacher_required
 def registro_home(request):
@@ -84,9 +82,9 @@ def crear_registro(request, id_paciente):
     tipo_consulta = request.POST.get('tipo_consulta')
 
     data = {'paciente': id_paciente,
-            #'nombre_paciente': nombre_paciente,
+            # 'nombre_paciente': nombre_paciente,
             'medico': id_medico,
-            #'nombre_medico': nombre_medico,
+            # 'nombre_medico': nombre_medico,
 
             'examen_principal_bioquimico': examen_principal_bioquimico,
             'examen_principal_orina': examen_principal_orina,
@@ -108,11 +106,12 @@ def crear_registro(request, id_paciente):
             'observaciones': observaciones,
 
             'tipo_consulta': tipo_consulta,
-            #'ultimas_3_fichas': ultimas_3_fichas
+            # 'ultimas_3_fichas': ultimas_3_fichas
             }
 
     request.session['ficha'] = data
     return redirect('confirmacion')
+
 
 @login_required
 @teacher_required
@@ -126,7 +125,6 @@ def confirmar_registro(request):
             del request.session
             return redirect('home')
     return render(request, 'medicos/confirmation.html', data)
-
 
 
 @login_required
@@ -145,7 +143,8 @@ def info_fichas(request, id_ficha):
 @login_required
 @superuser_required
 def admin_panel(request):
-    return render(request, 'admin/admin_panel.html')
+    fichas = User.objects.filter(is_teacher=1)
+    return render(request, 'admin/admin_panel.html', {'fichas': fichas})
 
 
 @login_required

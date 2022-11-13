@@ -8,24 +8,6 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
 
 
-
-
-# # Paciente
-# class Paciente(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-#     registros = models.ManyToManyField(Registro, through='TakenQuiz')
-
-#     def get_unanswered_questions(self, quiz):
-#         answered_questions = self.quiz_answers \
-#             .filter(answer__question__quiz=quiz) \
-#             .values_list('answer__question__pk', flat=True)
-#         questions = quiz.questions.exclude(pk__in=answered_questions).order_by('text')
-#         return questions
-
-#     def __str__(self):
-#         return self.user.username
-
-
 class Paciente(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
@@ -38,6 +20,7 @@ class Paciente(models.Model):
 class Registro(models.Model):
     medico = models.ForeignKey(User, on_delete=models.CASCADE)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+
     # Campos de texto
     diagnostico = models.TextField(blank=True)
     tratamiento = models.TextField(blank=True)
