@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Página principal</a></li>
+        <li class="breadcrumb-item">Listado de fichas médicas</li>
+        <li class="breadcrumb-item active" aria-current="page">Información ficha médica</li>
+    </ol>
+</nav>
+<div class="container">
+    <div class="d-flex justify-content-between">
+        <h3>Paciente: <b>{{registro.paciente.user.username}}</b></h3>
+        <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h5>Fecha: {{registro.fecha_registro}}</h5>
+        <h5>Tipo de registro: {{registro.tipo_consulta}}</h5>
+    </div>
+</div>
+<hr>
+<div class="text-center">
+    <h3 class="my-3">Historial</h3>
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>FECHA</th>
+                <th>DIAGNÓSTICO</th>
+                <th>TRATAMIENTO</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in ultimos_3_registros %}
+            <tr>
+                <td>{{i.fecha_registro}}</td>
+                <td>{{i.diagnostico}}</td>
+                <td>{{i.tratamiento}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>Vacío</td>
+                <td>Vacío</td>
+                <td>Vacío</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h3 class="text-center mt-3">Órdenes de exámenes solicitados:</h3>
+<div class="row justify-content-md-center">
+    <table class="table table-striped col table-hover table-bordered ml-3">
+        <thead>
+            <tr>
+                <th></th>
+                <th>PRINCIPALES</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% if registro.examen_principal_bioquimico %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Bioquímico</td>
+            </tr>
+            <tr>
+                {% if registro.examen_principal_orina %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Orina</td>
+            </tr>
+            <tr>
+                {% if registro.examen_principal_heces %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Heces</td>
+            </tr>
+            <tr>
+                {% if registro.examen_principal_glucosa %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Glocusa</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover table-bordered col mx-2">
+        <thead>
+            <th></th>
+            <th>RESONANCIA MAGNÉTICA</th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if registro.examen_resonancia_magnetica_torax %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Tórax</td>
+            </tr>
+            <tr>
+                {% if registro.examen_resonancia_magnetica_columna %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Columna</td>
+            </tr>
+            <tr>
+                {% if registro.examen_resonancia_magnetica_cabeza %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Cabeza</td>
+            </tr>
+            <tr>
+                {% if registro.examen_resonancia_magnetica_abdomen %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Abdomen</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover table-bordered col mr-3">
+        <thead>
+            <th></th>
+            <th>ECOGRAFÍA</th>
+        </thead>
+        <tbody>
+            <tr>
+                {% if registro.examen_ecografia_cabeza %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Cabeza</td>
+            </tr>
+            <tr>
+                {% if registro.examen_ecografia_torax %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Tórax</td>
+            </tr>
+            <tr>
+                {% if registro.examen_ecografia_abdomen %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+                <td>Abdomen</td>
+            </tr>
+            {% if registro.examen_ecografia_brazo %}
+            <td>Sí</td>
+            {% else %}
+            <td>No</td>
+            {% endif %}
+            <td>Brazo</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="card card-body my-3 bg-light">
+    <h3>DIAGNÓSTICO:</h3>
+    {% if registro.diagnostico %}
+    <p>{{registro.diagnostico}}</p>
+    {% else %}
+    <p>No ha ingresado un diagnóstico.</p>
+    {% endif %}
+</div>
+<div class="card card-body bg-light">
+    <h3>TRATAMIENTO</h3>
+    {% if registro.tratamiento %}
+    <p>{{registro.tratamiento}}</p>
+    {% else %}
+    <p>No ha ingresado un tratamiento.</p>
+    {% endif %}
+</div>
+<div class="card card-body mt-3 bg-light">
+    <h3>OBSERVACIONES:</h3>
+    {% if registro.diagnostico %}
+    <p>{{registro.observaciones}}</p>
+    {% else %}
+    <p>No ha ingresado observaciones.</p>
+    {% endif %}
+</div>
+<div class="text-center justify-content-center mt-3 ">
+    <a href="{% url 'home' %}">
+        <button class="btn btn-secondary">Cerrar</button>
+    </a>
+</div>
+{% endblock %}
