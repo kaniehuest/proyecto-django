@@ -9,12 +9,11 @@
 </nav>
 <div class="container">
     <div class="d-flex justify-content-between">
-        <h3>Paciente: <b>{{nombre_paciente}}</b></h3>
-        <h3>Médico tratante: <b>{{nombre_medico}}</b></h3>
+        <h3>Paciente: <b>{{paciente}}</b></h3>
+        <h3>Médico tratante: <b>{{medico}}</b></h3>
     </div>
     <div class="d-flex justify-content-between">
-        <!--<h5>Fecha: {{data.fecha_registro}}</h5>-->
-        <h5>Tipo de consulta: {{tipo_consulta}}</h5>
+        <h5>Tipo de consulta: {{ficha.tipo_consulta}}</h5>
     </div>
 </div>
 <hr>
@@ -56,7 +55,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_principal_bioquimico %}
+                {% if ficha.examen_principal_bioquimico %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -64,7 +63,7 @@
                 <td>Bioquímico</td>
             </tr>
             <tr>
-                {% if examen_principal_orina %}
+                {% if ficha.examen_principal_orina %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -72,7 +71,7 @@
                 <td>Orina</td>
             </tr>
             <tr>
-                {% if examen_principal_heces %}
+                {% if ficha.examen_principal_heces %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -80,7 +79,7 @@
                 <td>Heces</td>
             </tr>
             <tr>
-                {% if examen_principal_glucosa %}
+                {% if ficha.examen_principal_glucosa %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -96,7 +95,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_resonancia_magnetica_torax %}
+                {% if ficha.examen_resonancia_magnetica_torax %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -104,7 +103,7 @@
                 <td>Tórax</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_columna %}
+                {% if ficha.examen_resonancia_magnetica_columna %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -112,7 +111,7 @@
                 <td>Columna</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_cabeza %}
+                {% if ficha.examen_resonancia_magnetica_cabeza %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -120,7 +119,7 @@
                 <td>Cabeza</td>
             </tr>
             <tr>
-                {% if examen_resonancia_magnetica_abdomen %}
+                {% if ficha.examen_resonancia_magnetica_abdomen %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -136,7 +135,7 @@
         </thead>
         <tbody>
             <tr>
-                {% if examen_ecografia_cabeza %}
+                {% if ficha.examen_ecografia_cabeza %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -144,7 +143,7 @@
                 <td>Cabeza</td>
             </tr>
             <tr>
-                {% if examen_ecografia_torax %}
+                {% if ficha.examen_ecografia_torax %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
@@ -152,14 +151,14 @@
                 <td>Tórax</td>
             </tr>
             <tr>
-                {% if examen_ecografia_abdomen %}
+                {% if ficha.examen_ecografia_abdomen %}
                 <td>Sí</td>
                 {% else %}
                 <td>No</td>
                 {% endif %}
                 <td>Abdomen</td>
             </tr>
-            {% if examen_ecografia_brazo %}
+            {% if ficha.examen_ecografia_brazo %}
             <td>Sí</td>
             {% else %}
             <td>No</td>
@@ -170,26 +169,26 @@
     </table>
 
 </div>
-<div class="card card-body my-3">
+<div class="card card-body my-3 bg-light">
     <h3>DIAGNÓSTICO:</h3>
-    {% if diagnostico %}
-    <p>{{diagnostico}}</p>
+    {% if ficha.diagnostico %}
+    <p>{{ficha.diagnostico}}</p>
     {% else %}
     <p>No ha ingresado un diagnóstico.</p>
     {% endif %}
 </div>
-<div class="card card-body ">
+<div class="card card-body bg-light">
     <h3>TRATAMIENTO</h3>
-    {% if tratamiento %}
-    <p>{{tratamiento}}</p>
+    {% if ficha.tratamiento %}
+    <p>{{ficha.tratamiento}}</p>
     {% else %}
     <p>No ha ingresado un tratamiento.</p>
     {% endif %}
 </div>
-<div class="card card-body mt-3">
+<div class="card card-body mt-3 bg-light">
     <h3>OBSERVACIONES:</h3>
-    {% if diagnostico %}
-    <p>{{observaciones}}</p>
+    {% if ficha.diagnostico %}
+    <p>{{ficha.observaciones}}</p>
     {% else %}
     <p>No ha ingresado observaciones.</p>
     {% endif %}

@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-c746628a/css/fontello.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontello-92fe68f6/css/fontello.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
-    {% if user.is_authenticated and user.is_teacher %}
+    {% if user.is_authenticated and user.is_medico %}
       <link rel="stylesheet" type="text/css" href="{% static 'css/teachers.css' %}">
     {% else %}
       <link rel="stylesheet" type="text/css" href="{% static 'css/students.css' %}">
@@ -27,7 +27,7 @@
                 <a href="{% url 'home' %}">
                   Consultorio
                   {% if user.is_authenticated %}
-                    {% if user.is_teacher %}
+                    {% if user.is_medico %}
                       <span class="icon-user-md" data-toggle="tooltip" data-placement="right" title="Perfil de médico"></span>
                     {% elif user.is_superuser %}
                       <span class="icon-star" data-toggle="tooltip" data-placement="right" title="Perfil de administrador"></span>

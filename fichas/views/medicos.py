@@ -52,7 +52,7 @@ def crear_registro(request, id_paciente):
 
         return render(request, "medicos/fichas_form.html", data)
 
-    # Exámenes principales
+# Exámenes principales
     examen_principal_bioquimico = request.POST.get("examen_principal_bioquimico")
     examen_principal_orina = request.POST.get("examen_principal_orina")
     examen_principal_heces = request.POST.get("examen_principal_heces")
@@ -113,14 +113,23 @@ def crear_registro(request, id_paciente):
 @medico_required
 def confirmar_registro(request):
     data = request.session["ficha"]
+
     if "confirmar_registro_ficha" in request.POST:
         ficha = RegistroForm(data)
-
         if ficha.is_valid():
             ficha = ficha.save()
             del request.session
-            return redirect("home")
-    return render(request, "medicos/confirmacion.html", data)
+
+        return redirect("home")
+
+    nombre_medico = request.user.username
+    nombre_paciente = User.objects.filter(id=data["paciente"]).values()[0]["username"]
+
+    return render(
+        request,
+        "medicos/confirmacion.html",
+        {"ficha": data, "medico": nombre_medico, "paciente": nombre_paciente},
+    )
 
 
 @login_required
