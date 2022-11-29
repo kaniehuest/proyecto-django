@@ -13,6 +13,11 @@ import os
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# Load env vars
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-d3xpdirl!mbo=4mzj^g8qhxjsmw1j*@8m)d115hqo^p6dmav!l"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEVELOPMENT", True)
 
 ALLOWED_HOSTS = []
 
@@ -85,11 +90,11 @@ DATABASES = {
     # },
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "django-project",
-        "USER": "mysql",
-        "PASSWORD": "12345",
-        "HOST": "db",
-        "PORT": "3306"
+        "NAME": os.getenv("MYSQL_DATABASE", "mysql"),
+        "USER": os.getenv("MYSQL_USER", "root"),
+        "PASSWORD": os.getenv("MYSQL_PASSWORD", ""),
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "3306")
     }
 }
 
