@@ -1,0 +1,50 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
+    - name: Compress files to .tar
+      uses: a7ul/tar-action@v1.1.0
+      with:
+        command: c
+        cwd: "./"
+        files: |
+          clinica/
+          fichas/
+          static/
+          templates/
+          docker-compose.yml
+          Dockerfile
+          manage.py
+          requirements.txt
+          captain-definition
+        outPath: deploy.tar
+    - name: Deploy Github repo to Caprover
+      uses: caprover/deploy-from-github@v1.0.1
+      with:
+        server: '${{ secrets.CAPROVER_SERVER }}'
+        app: '${{ secrets.APP_NAME }}'
+        token: '${{ secrets.APP_TOKEN }}'
