@@ -2,6 +2,8 @@
 
 ## Setup
 
+Configure `sample.env` and rename it to `.env`.
+
 -  Local:
 
 > To run locally you have to change the default DATABASE on '/clinica/settings.py:DATABASES' to sqlite3.
