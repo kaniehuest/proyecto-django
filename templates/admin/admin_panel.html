@@ -12,16 +12,22 @@
                 <th class="text-center">ID</th>
                 <th class="text-center">Nombre del médico</th>
                 <th class="text-center">Last login</th>
-                <th class="text-center">Opciones</th>
             </tr>
         </thead>
         <tbody>
+            {% for medico in medicos %}
+            <tr>
+                <td class="text-center">{{medico.id}}</td>
+                <td class="text-center">{{medico.username}}</td>
+                <td class="text-center">{{medico.last_login}}</td>
+            </tr>
+            {% empty %}
             <tr>
                 <td class="text-center">Vacío</td>
                 <td class="text-center">Vacío</td>
                 <td class="text-center">Vacío</td>
-                <td class="text-center">Vacío</td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

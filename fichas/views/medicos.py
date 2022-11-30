@@ -153,8 +153,8 @@ def info_fichas(request, id_ficha):
 @login_required
 @superuser_required
 def admin_panel(request):
-    # fichas = User.objects.filter(is_medico=1)
-    return render(request, "admin/admin_panel.html")
+    medicos = User.objects.filter(is_medico=1)
+    return render(request, "admin/admin_panel.html", {"medicos": medicos})
 
 
 @login_required
