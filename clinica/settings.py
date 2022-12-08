@@ -33,6 +33,8 @@ DEBUG = os.getenv("DEVELOPMENT", True)
 
 ALLOWED_HOSTS = [
     os.getenv("ALLOWED_HOSTS", ""),
+    "localhost"
+
 ]
 
 CSRF_TRUSTED_ORIGINS = ["https://consultorio.yerkoacuna.tk"]
@@ -88,10 +90,13 @@ WSGI_APPLICATION = "clinica.wsgi.application"
 
 # To switch to SQLite3 database comment the mysql configuration and uncomment sqlite3
 DATABASES = {
+    ##### Descomenta el bloque de abajo para la instalación manual    
     # "default": {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3",
-    # },
+    # }
+
+    ##### Comenta o elimina el bloque de abajo para la instalación manual
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": os.getenv("MYSQL_DATABASE", "mysql"),
