@@ -12,7 +12,8 @@ from ..models import User, Registro
 @medico_required
 def home(request):
     if request.method == "GET":
-        return render(request, "medicos/home.html")
+        pacientes = User.objects.filter(is_paciente=1)
+        return render(request, "medicos/home.html", {"pacientes": pacientes})
 
     # Obtiene el nombre desde el campo de input, si el nombre existe entonces devuelve el ID del usuario
     # y redirije a una página donde se listan todas sus fichas médicas

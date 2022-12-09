@@ -28,10 +28,28 @@
         </div>
     </form>
 </div>
-
-
-
-
-
-
+<table class="table table-striped mb-0">
+    <thead>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Nombre del paciente</th>
+            <th class="text-center">Last login</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paciente in pacientes %}
+        <tr>
+            <td class="text-center">{{paciente.id}}</td>
+            <td class="text-center">{{paciente.username}}</td>
+            <td class="text-center">{{paciente.last_login}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td class="text-center">Vacío</td>
+            <td class="text-center">Vacío</td>
+            <td class="text-center">Vacío</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
