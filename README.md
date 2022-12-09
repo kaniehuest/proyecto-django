@@ -1,38 +1,24 @@
-# proyecto-django
+# Proyecto Clínica con Django y Docker
 
-## Setup
+## Setup manual
 
-Configure `sample.env` and rename it to `.env`.
+> You can have a step-by-step guide here: [Link](https://github.com/kaniehuest/proyecto-django/blob/master/manual-instalaci%C3%B3n/Manual%20de%20instalaci%C3%B3n%20en%20Windows%20de%20forma%20manual.pdf)
 
--  Local:
+1. Configure `sample.env` and rename it to `.env`.
+2. To run locally follow the instructions here: [Link](https://github.com/kaniehuest/proyecto-django/blob/master/clinica/settings.py#L92)
+3. Run these commands:
 
-> To run locally you have to change the default DATABASE on '/clinica/settings.py:DATABASES' to sqlite3.
-
-```sh
-$ virtualenv env
-$ source env/bin/activate
+```bash
 $ pip install -r requirements.txt
+$ python3 manage.py migrate
+$ python3 manage.py createsuperuser
 $ python3 manage.py runserver
 ```
 
--  Docker compose:
+## Setup with Docker
 
-```sh
-docker-compose up -d
-```
+You can have a step-by-step guide here: [Link](https://github.com/kaniehuest/proyecto-django/blob/master/manual-instalaci%C3%B3n/Manual%20de%20instalaci%C3%B3n%20en%20Windows%20con%20Docker.pdf)
 
-## First time commands
+## User Manual
 
--  To make migrations:
-
-```sh
-python3 manage.py migrate
-```
-
--  To create django superuser:
-
-```sh
-python3 manage.py createsuperuser
-```
-
-> If you setup the project on docker, run the commands inside the django container with `docker exec -it django /bin/sh`
+You can have instructions about the usage of the application here: [Link](https://github.com/kaniehuest/proyecto-django/blob/master/manual-usuario/Manual%20de%20usuario.pdf)
