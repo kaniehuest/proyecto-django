@@ -11,7 +11,8 @@
             <tr>
                 <th class="text-center">ID</th>
                 <th class="text-center">Nombre del médico</th>
-                <th class="text-center">Last login</th>
+                <th class="text-center">Último inicio de sesión</th>
+                <th class="text-center">Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +21,33 @@
                 <td class="text-center">{{medico.id}}</td>
                 <td class="text-center">{{medico.username}}</td>
                 <td class="text-center">{{medico.last_login}}</td>
+                <td class="text-center">
+                    <a href="#" class="btn btn-success">Editar</a>
+                    <a href="#" data-toggle="modal" data-target="#eliminarPaciente" class="btn btn-danger">Eliminar</a>
+                </td>
             </tr>
+            <div class="modal" id="eliminarPaciente" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Borrar médico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Al hacer click en confirmar el perfil de médico se eliminará difinitivamente.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'eliminar_medico'  medico.id %}" class="btn btn-danger">Confirmar</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+                </div>
+            </div>
+            </div>
             {% empty %}
             <tr>
+                <td class="text-center">Vacío</td>
                 <td class="text-center">Vacío</td>
                 <td class="text-center">Vacío</td>
                 <td class="text-center">Vacío</td>
@@ -31,4 +56,5 @@
         </tbody>
     </table>
 </div>
+
 {% endblock %}

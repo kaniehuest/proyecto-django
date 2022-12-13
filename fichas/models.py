@@ -4,30 +4,27 @@ from django.utils.timezone import now
 
 
 class User(AbstractUser):
-    is_paciente = models.BooleanField(default=False)
-    is_medico = models.BooleanField(default=False)
+    is_paciente = models.BooleanField(default=False, null=True)
+    is_medico = models.BooleanField(default=False, null=True)
 
 
 class Paciente(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
-    def __str__(self):
-        return self.user.username
+    user = models.OneToOneField(User, on_delete=models.SET_DEFAULT, primary_key=True, default="")
 
 
 # Registro
 class Registro(models.Model):
-    medico = models.ForeignKey(User, on_delete=models.CASCADE)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    medico = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default="", null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.SET_DEFAULT, default="", null=True)
 
     # Campos de texto
-    diagnostico = models.TextField(blank=True)
-    tratamiento = models.TextField(blank=True)
-    observaciones = models.TextField(blank=True)
-    fecha_registro = models.DateTimeField(default=now, blank=True)
+    diagnostico = models.TextField(blank=True, default="", null=True)
+    tratamiento = models.TextField(blank=True, default="", null=True)
+    observaciones = models.TextField(blank=True, default="", null=True)
+    fecha_registro = models.DateTimeField(default=now, blank=True, null=True)
 
     # Tipo de cita medica
-    tipo_consulta = models.CharField(default="Consulta Medica", max_length=50)
+    tipo_consulta = models.CharField(default="Consulta Medica", max_length=50, null=True)
 
     # Examenes
     examen_principal_bioquimico = models.BooleanField(default=False)

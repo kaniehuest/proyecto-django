@@ -178,3 +178,11 @@ class MedicoSignUpView(CreateView):
         user = form.save()
         # login(self.request, user)
         return redirect("admin_panel")
+
+
+@login_required
+@superuser_required
+def eliminar_medico(request, id):
+    medico = User.objects.get(id=id)
+    medico.delete()
+    return redirect("home")
