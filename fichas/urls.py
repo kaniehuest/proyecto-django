@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("admin/", admin.site.urls),
     path("superuser/", medicos.admin_panel, name="admin_panel"),
+    path("superuser/eliminar/<int:id>", medicos.eliminar_medico, name="eliminar_medico"),
     path(
         "pacientes/",
         include(

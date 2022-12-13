@@ -5,7 +5,6 @@ from fichas.views import views, medicos, pacientes
 urlpatterns = [
     path("", include("fichas.urls")),
     path("cuentas/", include("django.contrib.auth.urls")),
-    path("cuentas/registrar/", views.SignUpView.as_view(), name="signup"),
     path(
         "cuentas/registrar/paciente/",
         pacientes.PacienteSignUpView.as_view(),

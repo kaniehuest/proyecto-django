@@ -14,7 +14,7 @@
                 <th>Nombre del paciente</th>
                 <th>Tipo de consulta</th>
                 <th>Fecha</th>
-                <th></th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +25,10 @@
                 <td class="align-middle"><span class="badge badge-primary"
                         style="background-color: #28a745">{{ficha.tipo_consulta}}</span></td>
                 <td class="align-middle">{{ficha.fecha_registro}}</td>
-                <td class="text-right">
+                <td class="d-flex">
                     <a href="{% url 'medicos:info_fichas' ficha.id %}" class="btn btn-primary">Ver datos</a>
+                    <a href="#" class="btn btn-success mx-1">Editar</a>
+                    <a href="#" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
             {% empty %}
