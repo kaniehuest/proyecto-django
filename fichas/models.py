@@ -6,6 +6,9 @@ from django.utils.timezone import now
 class User(AbstractUser):
     is_paciente = models.BooleanField(default=False, null=True)
     is_medico = models.BooleanField(default=False, null=True)
+    nombres = models.CharField(blank=True, max_length=50, default="", null=True)
+    apellidos = models.CharField(blank=True, max_length=50, default="", null=True)
+    telefono = models.CharField(blank=True, max_length=50, default="", null=True)
 
 
 class Paciente(models.Model):
@@ -24,7 +27,7 @@ class Registro(models.Model):
     fecha_registro = models.DateTimeField(default=now, blank=True, null=True)
 
     # Tipo de cita medica
-    tipo_consulta = models.CharField(default="Consulta Medica", max_length=50, null=True)
+    tipo_consulta = models.CharField(default="Consulta médica", max_length=50, null=True)
 
     # Examenes
     examen_principal_bioquimico = models.BooleanField(default=False)
