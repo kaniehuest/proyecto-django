@@ -25,7 +25,7 @@
                         style="background-color: #28a745">{{ficha.tipo_consulta}}</span></td>
                 <td class="align-middle">{{ficha.fecha_registro}}</td>
                 <td class="text-right">
-                    <a href="{% url 'pacientes:info_fichas_paciente' ficha.id %}" class="btn btn-primary">Ver datos</a>
+                    <a href="{% url 'info_fichas_paciente' ficha.id %}" class="btn btn-primary">Ver datos</a>
                 </td>
             </tr>
             {% empty %}

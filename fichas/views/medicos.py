@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 
 from ..decorators import medico_required, superuser_required
 from ..forms import RegistroForm, MedicoSignUpForm
-from ..models import User, Registro
+from ..models import User, Registro, Paciente
 
 
 @login_required
@@ -31,7 +31,7 @@ def home(request):
         return redirect("medicos:registrar_ficha", id_paciente)
 
     elif "visualizar_registro" in request.POST:
-        return redirect("medicos:listar_fichas", id_paciente)
+        return redirect("listar_fichas", id_paciente)
 
     return render(request, "medicos/home.html")
 
@@ -107,7 +107,7 @@ def crear_registro(request, id_paciente):
     }
 
     request.session["ficha"] = data
-    return redirect("medicos:confirmacion")
+    return redirect("confirmacion")
 
 
 @login_required
@@ -121,7 +121,7 @@ def confirmar_registro(request):
             ficha = ficha.save()
             del request.session
 
-        return redirect("home")
+        return redirect("home_medico")
 
     nombre_medico = request.user.username
     nombre_paciente = User.objects.filter(id=data["paciente"]).values()[0]["username"]
@@ -176,7 +176,6 @@ class MedicoSignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        # login(self.request, user)
         return redirect("admin_panel")
 
 
@@ -185,4 +184,13 @@ class MedicoSignUpView(CreateView):
 def eliminar_medico(request, id):
     medico = User.objects.get(id=id)
     medico.delete()
-    return redirect("home")
+    return redirect("admin_panel")
+
+@login_required
+@medico_required
+def eliminar_paciente(request, id):
+    paciente = Paciente.objects.get(user_id=id)
+    paciente.delete()
+    paciente = User.objects.get(id=id)
+    paciente.delete()
+    return redirect("home_medico")
