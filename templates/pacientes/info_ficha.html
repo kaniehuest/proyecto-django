@@ -8,8 +8,16 @@
 </nav>
 <div class="container">
     <div class="d-flex justify-content-between">
+        {% if registro.paciente.username %}
         <h3>Paciente: <b>{{registro.paciente.user.username}}</b></h3>
-        <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
+        {% else %}
+            <h3><i>El perfil de paciente ya no existe</i></h3>
+        {% endif %}
+        {% if registro.medico.username %}
+            <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
+        {% else %}
+            <h3><i>El perfil de médico ya no existe</i></h3>
+        {% endif %}
     </div>
     <div class="d-flex justify-content-between">
         <h5>Fecha: {{registro.fecha_registro}}</h5>

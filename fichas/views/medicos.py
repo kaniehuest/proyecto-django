@@ -11,29 +11,33 @@ from ..models import User, Registro, Paciente
 @login_required
 @medico_required
 def home(request):
+    pacientes = User.objects.filter(is_paciente=1)
     if request.method == "GET":
-        pacientes = User.objects.filter(is_paciente=1)
         return render(request, "medicos/home.html", {"pacientes": pacientes})
 
+    if request.method == "POST":
     # Obtiene el nombre desde el campo de input, si el nombre existe entonces devuelve el ID del usuario
     # y redirije a una página donde se listan todas sus fichas médicas
-    try:
-        nombre_paciente = request.POST.get("search")
-        id_paciente = User.objects.filter(username=nombre_paciente).values()[0]["id"]
-    except:
-        return render(
-            request,
-            "medicos/home.html",
-            {"mensaje": "Error, el nombre no se encuentra registrado"},
-        )
+        try:
+            nombre_paciente = request.POST.get("search")
+            id_paciente = User.objects.filter(username=nombre_paciente).values()[0]["id"]
+        except:
+            return render(
+                request,
+                "medicos/home.html",
+                {
+                    "mensaje": "Error, el nombre no se encuentra registrado",
+                    "pacientes": pacientes,
+                },
+            )
 
-    if "crear_nuevo_registro" in request.POST:
-        return redirect("medicos:registrar_ficha", id_paciente)
+        if "crear_nuevo_registro" in request.POST:
+            return redirect("registrar_ficha", id_paciente)
 
-    elif "visualizar_registro" in request.POST:
-        return redirect("listar_fichas", id_paciente)
+        elif "visualizar_registro" in request.POST:
+            return redirect("listar_fichas", id_paciente)
 
-    return render(request, "medicos/home.html")
+    return render(request, "medicos/home.html", {"pacientes": pacientes})
 
 
 @login_required
@@ -53,7 +57,7 @@ def crear_registro(request, id_paciente):
 
         return render(request, "medicos/fichas_form.html", data)
 
-# Exámenes principales
+    # Exámenes principales
     examen_principal_bioquimico = request.POST.get("examen_principal_bioquimico")
     examen_principal_orina = request.POST.get("examen_principal_orina")
     examen_principal_heces = request.POST.get("examen_principal_heces")
@@ -186,6 +190,7 @@ def eliminar_medico(request, id):
     medico.delete()
     return redirect("admin_panel")
 
+
 @login_required
 @medico_required
 def eliminar_paciente(request, id):
@@ -194,3 +199,7 @@ def eliminar_paciente(request, id):
     paciente = User.objects.get(id=id)
     paciente.delete()
     return redirect("home_medico")
+
+
+def update_username_medico(request, id):
+    return
