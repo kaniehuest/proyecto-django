@@ -9,7 +9,7 @@
 </nav>
 <div class="container">
     <div class="d-flex justify-content-between">
-        {% if registro.paciente.username %}
+        {% if registro.paciente.user.username %}
         <h3>Paciente: <b>{{registro.paciente.user.username}}</b></h3>
         {% else %}
             <h3><i>El perfil de paciente ya no existe</i></h3>

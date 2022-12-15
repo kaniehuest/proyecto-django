@@ -172,6 +172,3 @@ def eliminar_paciente(request, id):
     paciente.delete()
     return redirect("home_medico")
 
-
-def update_username_medico(request, id):
-    return
