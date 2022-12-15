@@ -4,11 +4,19 @@ from django.utils.timezone import now
 
 
 class User(AbstractUser):
+    GENEROS = [
+        ("MASCULINO", 'masculino'),
+        ("FEMENINO", 'femenino'),
+    ]
     is_paciente = models.BooleanField(default=False, null=True)
     is_medico = models.BooleanField(default=False, null=True)
-    nombres = models.CharField(blank=True, max_length=50, default="", null=True)
-    apellidos = models.CharField(blank=True, max_length=50, default="", null=True)
     telefono = models.CharField(blank=True, max_length=50, default="", null=True)
+    genero = models.CharField(
+        max_length=9,
+        choices=GENEROS,
+        default="MASCULINO",
+        null=True
+    )
 
 
 class Paciente(models.Model):

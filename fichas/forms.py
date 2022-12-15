@@ -8,7 +8,7 @@ from fichas.models import User, Registro, Paciente
 class MedicoSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("username", "nombres", "apellidos", "telefono", "email", "password1", "password2")
+        fields = ("username", "first_name", "last_name", "genero", "telefono", "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super().save(commit=False)

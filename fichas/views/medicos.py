@@ -156,39 +156,11 @@ def info_fichas(request, id_ficha):
 
 
 @login_required
-@superuser_required
-def admin_panel(request):
-    medicos = User.objects.filter(is_medico=1)
-    return render(request, "admin/admin_panel.html", {"medicos": medicos})
-
-
-@login_required
 @medico_required
 def listar_fichas(request, id_paciente):
     fichas = Registro.objects.filter(paciente_id=id_paciente)
     return render(request, "medicos/listar_fichas.html", {"fichas": fichas})
 
-
-class MedicoSignUpView(CreateView):
-    model = User
-    form_class = MedicoSignUpForm
-    template_name = "registration/signup_form.html"
-
-    def get_context_data(self, **kwargs):
-        kwargs["user_type"] = "medico"
-        return super().get_context_data(**kwargs)
-
-    def form_valid(self, form):
-        user = form.save()
-        return redirect("admin_panel")
-
-
-@login_required
-@superuser_required
-def eliminar_medico(request, id):
-    medico = User.objects.get(id=id)
-    medico.delete()
-    return redirect("admin_panel")
 
 
 @login_required
