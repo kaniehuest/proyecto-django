@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Información de paciente</h2>
+<div class="col col-md-6">
+
+    <!-- USERNAME-->
+    <form method="POST" action="{% url 'editar_username_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_username" class="form-group">
+            <label for="id_username" class=" requiredField">
+                Nombre de usuario
+            </label>
+            <div class="d-flex">
+                <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username"
+                    autofocus class="textinput textInput form-control" required id="id_username"
+                    value="{{paciente.username}}">
+                <button href="#" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- NOMBRES -->
+    <form method="POST" action="{% url 'editar_nombres_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_nombres" class="form-group">
+            <label for="id_nombres" class="">Nombres</label>
+            <div class="d-flex">
+                <input type="text" name="nombres" maxlength="50" class="textinput textInput form-control"
+                    id="id_nombres" value="{{paciente.first_name}}">
+                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- APELLIDOS -->
+    <form method="POST" action="{% url 'editar_apellidos_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_apellidos" class="form-group"> <label for="id_apellidos" class="">
+                Apellidos
+            </label>
+            <div class="d-flex"> <input type="text" name="last_name" maxlength="50"
+                    class="textinput textInput form-control" id="id_apellidos" value="{{paciente.last_name}}">
+                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- GENERO -->
+    <form method="POST" action="{% url 'editar_genero_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_genero" class="form-group">
+            <label for="id_genero" class=" requiredField">Genero</label>
+            <div class="d-flex">
+                    <select name="genero" class="select form-control" id="id_genero">
+                        <option value="{{paciente.genero}}" selected>{{paciente.genero}}</option>
+                        <option value="MASCULINO">masculino</option>
+                        <option value="FEMENINO">femenino</option>
+                    </select>
+                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- TELEFONO -->
+    <form method="POST" action="{% url 'editar_telefono_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_telefono" class="form-group"> <label for="id_telefono" class="">
+                Telefono
+            </label>
+            <div class="d-flex"> <input type="text" name="telefono" maxlength="50"
+                    class="textinput textInput form-control" id="id_telefono" value="{{paciente.telefono}}">
+
+                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- EMAIL -->
+    <form method="POST" action="{% url 'editar_email_paciente' paciente.id %}">
+        {% csrf_token %}
+        <div id="div_id_email" class="form-group"> <label for="id_email" class="">
+                Dirección de correo electrónico
+            </label>
+            <div class="d-flex"> <input type="email" name="email" maxlength="254" class="emailinput form-control"
+                    id="id_email" value="{{paciente.email}}">
+                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+
+<a href="{% url 'eliminar_paciente_paciente' paciente.id %}" class="btn btn-secondary">Eliminar cuenta</a>
+<a href="{% url 'home_paciente' %}" class="btn btn-secondary">Volver</a>
+{% endblock %}

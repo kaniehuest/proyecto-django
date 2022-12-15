@@ -21,10 +21,18 @@ urlpatterns = [
     # Paciente
     path("pacientes/", pacientes.home_paciente, name="home_paciente"),
     path("pacientes/fichas/info/<int:id_ficha>/", pacientes.info_fichas, name="info_fichas_paciente"),
+    path("pacientes/perfil/info/", pacientes.info_paciente, name="info_paciente"),
+    path("pacientes/editar/username/<int:id>/", pacientes.editar_username_paciente, name="editar_username_paciente"),
+    path("pacientes/editar/nombres/<int:id>/", pacientes.editar_nombres_paciente, name="editar_nombres_paciente"),
+    path("pacientes/editar/apellidos/<int:id>/", pacientes.editar_apellidos_paciente, name="editar_apellidos_paciente"),
+    path("pacientes/editar/genero/<int:id>/", pacientes.editar_genero_paciente, name="editar_genero_paciente"),
+    path("pacientes/editar/telefono/<int:id>/", pacientes.editar_telefono_paciente, name="editar_telefono_paciente"),
+    path("pacientes/editar/email/<int:id>/", pacientes.editar_email_paciente, name="editar_email_paciente"),
+    path("pacientes/eliminar/<int:id>", pacientes.eliminar_paciente, name="eliminar_paciente_paciente"),
 
     # Medico
     path("medicos/", medicos.home, name="home_medico"),
-    path("medicos/pacientes/eliminar/<int:id>/", medicos.eliminar_paciente, name="eliminar_paciente"),
+    path("medicos/pacientes/eliminar/<int:id>/", medicos.eliminar_paciente, name="eliminar_paciente_medico"),
     path("medicos/fichas/info/<int:id_ficha>/", medicos.info_fichas, name="info_fichas"),
     path("medicos/fichas/registrar/<int:id_paciente>/", medicos.crear_registro, name="registrar_ficha"),
     path("medicos/fichas/listar/<int:id_paciente>/", medicos.listar_fichas, name="listar_fichas"),
