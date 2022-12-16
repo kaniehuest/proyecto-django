@@ -184,7 +184,7 @@
 <div class="card card-body my-3 bg-light">
     <div class="d-flex justify-content-between">
         <h3>DIAGNÓSTICO:</h3>
-        <button class="btn btn-secondary btn-sm">Editar</button>
+        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editarDiagnostico">Editar</button>
     </div>
     {% if registro.diagnostico %}
     <p>{{registro.diagnostico}}</p>
@@ -195,7 +195,7 @@
 <div class="card card-body bg-light">
     <div class="d-flex justify-content-between">
         <h3>TRATAMIENTO</h3>
-        <button class="btn btn-secondary btn-sm">Editar</button>
+        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editarTratamiento">Editar</button>
     </div>
     {% if registro.tratamiento %}
     <p>{{registro.tratamiento}}</p>
@@ -206,7 +206,7 @@
 <div class="card card-body mt-3 bg-light">
     <div class="d-flex justify-content-between">
         <h3>OBSERVACIONES:</h3>
-        <button class="btn btn-secondary btn-sm">Editar</button>
+        <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editarObservaciones">Editar</button>
     </div>
     {% if registro.diagnostico %}
     <p>{{registro.observaciones}}</p>
@@ -222,8 +222,88 @@
 
 
 
-<!-- MODAL PARA EDITAR EXAMENES PRINCIPALES -->
 
+<!-- MODAL PARA EDITAR DIAGNOSTICO -->
+<form action="{% url 'editar_diagnostico' registro.id %}" method="POST">
+    {% csrf_token %}
+    <div class="modal fade" id="editarDiagnostico" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editar diagnostico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="diagnostico" name="diagnostico"
+                        rows="2">{{registro.diagnostico}}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+<!-- MODAL PARA EDITAR TRATAMIENTO -->
+<form action="{% url 'editar_tratamiento' registro.id %}" method="POST">
+    {% csrf_token %}
+    <div class="modal fade" id="editarTratamiento" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Editar tratamiento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="tratamiento" name="tratamiento"
+                        rows="2">{{registro.tratamiento}}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- MODAL PARA EDITAR observaciones -->
+<form action="{% url 'editar_observaciones' registro.id %}" method="POST">
+    {% csrf_token %}
+    <div class="modal fade" id="editarObservaciones" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar observaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="observaciones" name="observaciones"
+                        rows="2">{{registro.observaciones}}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- MODAL PARA EDITAR EXAMENES PRINCIPALES -->
 <div class="modal fade" id="editarExamenesPrincipales" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -791,5 +871,13 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
 
 {% endblock %}

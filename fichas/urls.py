@@ -54,4 +54,8 @@ urlpatterns = [
     path("medicos/fichas/editar/examen/ecografia/torax/<int:id>/", medicos.editar_examen_ecografia_torax, name="e_e_ecografia_torax"),
     path("medicos/fichas/editar/examen/ecografia/abdomen/<int:id>/", medicos.editar_examen_ecografia_abdomen, name="e_e_ecografia_abdomen"),
     path("medicos/fichas/editar/examen/ecografia/brazo/<int:id>/", medicos.editar_examen_ecografia_brazo, name="e_e_ecografia_brazo"),
+
+    path("medicos/fichas/editar/diagnostico/<int:id>/", medicos.editar_diagnostico, name="editar_diagnostico"),
+    path("medicos/fichas/editar/tratamiento/<int:id>/", medicos.editar_tratamiento, name="editar_tratamiento"),
+    path("medicos/fichas/editar/observaciones/<int:id>/", medicos.editar_observaciones, name="editar_observaciones"),
 ]

@@ -338,3 +338,30 @@ def eliminar_ficha(request, id):
     registro = Registro.objects.get(id=id)
     registro.delete()
     return redirect("home_medico")
+
+@login_required
+@medico_required
+def editar_diagnostico(request, id):
+    diagnostico = request.POST.get("diagnostico")
+    registro = Registro.objects.get(id=id)
+    registro.diagnostico = diagnostico
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_tratamiento(request, id):
+    tratamiento = request.POST.get("tratamiento")
+    registro = Registro.objects.get(id=id)
+    registro.tratamiento = tratamiento
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_observaciones(request, id):
+    observaciones = request.POST.get("observaciones")
+    registro = Registro.objects.get(id=id)
+    registro.observaciones = observaciones
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
