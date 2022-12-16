@@ -32,9 +32,10 @@
     <thead>
         <tr>
             <th class="text-center">ID</th>
-            <th class="text-center">Nombre del paciente</th>
+            <th class="text-center">RUT del paciente</th>
+            <th class="text-center">Nombres</th>
+            <th class="text-center">Teléfono</th>
             <th class="text-center">Último inicio de sesión</th>
-            <th class="text-center">Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -42,11 +43,9 @@
         <tr>
             <td class="text-center">{{paciente.id}}</td>
             <td class="text-center">{{paciente.username}}</td>
+            <td class="text-center">{{paciente.first_name}}</td>
+            <td class="text-center">{{paciente.telefono}}</td>
             <td class="text-center">{{paciente.last_login}}</td>
-            <td class="text-center">
-                <a href="#" class="btn btn-success">Editar</a>
-                <a href="#" data-toggle="modal" data-target="#eliminarPaciente" class="btn btn-danger">Eliminar</a>
-            </td>
         </tr>
         <div class="modal" id="eliminarPaciente" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

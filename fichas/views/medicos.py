@@ -331,3 +331,10 @@ def editar_examen_ecografia_brazo(request, id):
     registro.examen_ecografia_brazo = examen
     registro.save()
     return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def eliminar_ficha(request, id):
+    registro = Registro.objects.get(id=id)
+    registro.delete()
+    return redirect("home_medico")

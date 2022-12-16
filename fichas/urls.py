@@ -37,6 +37,7 @@ urlpatterns = [
     path("medicos/fichas/registrar/<int:id_paciente>/", medicos.crear_registro, name="registrar_ficha"),
     path("medicos/fichas/listar/<int:id_paciente>/", medicos.listar_fichas, name="listar_fichas"),
     path("medicos/fichas/confirmacion/", medicos.confirmar_registro, name="confirmacion"),
+    path("medicos/fichas/eliminar/<int:id>/", medicos.eliminar_ficha, name="eliminar_ficha"),
 
     # Examenes
     path("medicos/fichas/editar/examen/principal/bioquimico/<int:id>/", medicos.editar_examen_principal_bioquimico, name="e_e_principal_bioquimico"),
