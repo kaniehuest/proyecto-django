@@ -172,3 +172,162 @@ def eliminar_paciente(request, id):
     paciente.delete()
     return redirect("home_medico")
 
+
+@login_required
+@medico_required
+def editar_examen_principal_bioquimico(request, id):
+    examen = request.POST.get("examen_principal_bioquimico")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_bioquimico = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_orina(request, id):
+    examen = request.POST.get("examen_principal_orina")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_orina = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_heces(request, id):
+    examen = request.POST.get("examen_principal_heces")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_heces = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_glucosa(request, id):
+    examen = request.POST.get("examen_principal_glucosa")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_glucosa = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_torax(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_torax")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_torax = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_columna(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_columna")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_columna = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_cabeza(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_cabeza")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_cabeza = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_abdomen(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_abdomen")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_abdomen = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_cabeza(request, id):
+    examen = request.POST.get("examen_ecografia_cabeza")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_cabeza = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_torax(request, id):
+    examen = request.POST.get("examen_ecografia_torax")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_torax = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_abdomen(request, id):
+    examen = request.POST.get("examen_ecografia_abdomen")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_abdomen = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_brazo(request, id):
+    examen = request.POST.get("examen_ecografia_brazo")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_brazo = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)

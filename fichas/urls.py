@@ -37,4 +37,20 @@ urlpatterns = [
     path("medicos/fichas/registrar/<int:id_paciente>/", medicos.crear_registro, name="registrar_ficha"),
     path("medicos/fichas/listar/<int:id_paciente>/", medicos.listar_fichas, name="listar_fichas"),
     path("medicos/fichas/confirmacion/", medicos.confirmar_registro, name="confirmacion"),
+
+    # Examenes
+    path("medicos/fichas/editar/examen/principal/bioquimico/<int:id>/", medicos.editar_examen_principal_bioquimico, name="e_e_principal_bioquimico"),
+    path("medicos/fichas/editar/examen/principal/orina/<int:id>/", medicos.editar_examen_principal_orina, name="e_e_principal_orina"),
+    path("medicos/fichas/editar/examen/principal/heces/<int:id>/", medicos.editar_examen_principal_heces, name="e_e_principal_heces"),
+    path("medicos/fichas/editar/examen/principal/glucosa/<int:id>/", medicos.editar_examen_principal_glucosa, name="e_e_principal_glucosa"),
+
+    path("medicos/fichas/editar/examen/resonancia/torax/<int:id>/", medicos.editar_examen_resonancia_torax, name="e_e_resonancia_torax"),
+    path("medicos/fichas/editar/examen/resonancia/columna/<int:id>/", medicos.editar_examen_resonancia_columna, name="e_e_resonancia_columna"),
+    path("medicos/fichas/editar/examen/resonancia/cabeza/<int:id>/", medicos.editar_examen_resonancia_cabeza, name="e_e_resonancia_cabeza"),
+    path("medicos/fichas/editar/examen/resonancia/abdomen/<int:id>/", medicos.editar_examen_resonancia_abdomen, name="e_e_resonancia_abdomen"),
+
+    path("medicos/fichas/editar/examen/ecografia/cabeza/<int:id>/", medicos.editar_examen_ecografia_cabeza, name="e_e_ecografia_cabeza"),
+    path("medicos/fichas/editar/examen/ecografia/torax/<int:id>/", medicos.editar_examen_ecografia_torax, name="e_e_ecografia_torax"),
+    path("medicos/fichas/editar/examen/ecografia/abdomen/<int:id>/", medicos.editar_examen_ecografia_abdomen, name="e_e_ecografia_abdomen"),
+    path("medicos/fichas/editar/examen/ecografia/brazo/<int:id>/", medicos.editar_examen_ecografia_brazo, name="e_e_ecografia_brazo"),
 ]

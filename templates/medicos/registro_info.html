@@ -12,12 +12,12 @@
         {% if registro.paciente.user.username %}
         <h3>Paciente: <b>{{registro.paciente.user.username}}</b></h3>
         {% else %}
-            <h3><i>El perfil de paciente ya no existe</i></h3>
+        <h3><i>El perfil de paciente ya no existe</i></h3>
         {% endif %}
         {% if registro.medico.username %}
-            <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
+        <h3>Médico tratante: <b>{{registro.medico.username}}</b></h3>
         {% else %}
-            <h3><i>El perfil de médico ya no existe</i></h3>
+        <h3><i>El perfil de médico ya no existe</i></h3>
         {% endif %}
     </div>
     <div class="d-flex justify-content-between">
@@ -58,7 +58,8 @@
     <table class="table table-striped col table-hover table-bordered ml-3">
         <thead>
             <tr>
-                <th></th>
+                <th><button class="btn btn-secondary btn-sm" data-toggle="modal"
+                        data-target="#editarExamenesPrincipales">Editar</button></th>
                 <th>PRINCIPALES</th>
             </tr>
         </thead>
@@ -99,7 +100,8 @@
     </table>
     <table class="table table-striped table-hover table-bordered col mx-2">
         <thead>
-            <th></th>
+            <th><button class="btn btn-secondary btn-sm" data-toggle="modal"
+                    data-target="#editarExamenesResonancia">Editar</button></th>
             <th>RESONANCIA MAGNÉTICA</th>
         </thead>
         <tbody>
@@ -139,7 +141,8 @@
     </table>
     <table class="table table-striped table-hover table-bordered col mr-3">
         <thead>
-            <th></th>
+            <th><button class="btn btn-secondary btn-sm" data-toggle="modal"
+                    data-target="#editarExamenesEcografia">Editar</button></th>
             <th>ECOGRAFÍA</th>
         </thead>
         <tbody>
@@ -179,7 +182,10 @@
 
 </div>
 <div class="card card-body my-3 bg-light">
-    <h3>DIAGNÓSTICO:</h3>
+    <div class="d-flex justify-content-between">
+        <h3>DIAGNÓSTICO:</h3>
+        <button class="btn btn-secondary btn-sm">Editar</button>
+    </div>
     {% if registro.diagnostico %}
     <p>{{registro.diagnostico}}</p>
     {% else %}
@@ -187,7 +193,10 @@
     {% endif %}
 </div>
 <div class="card card-body bg-light">
-    <h3>TRATAMIENTO</h3>
+    <div class="d-flex justify-content-between">
+        <h3>TRATAMIENTO</h3>
+        <button class="btn btn-secondary btn-sm">Editar</button>
+    </div>
     {% if registro.tratamiento %}
     <p>{{registro.tratamiento}}</p>
     {% else %}
@@ -195,7 +204,10 @@
     {% endif %}
 </div>
 <div class="card card-body mt-3 bg-light">
-    <h3>OBSERVACIONES:</h3>
+    <div class="d-flex justify-content-between">
+        <h3>OBSERVACIONES:</h3>
+        <button class="btn btn-secondary btn-sm">Editar</button>
+    </div>
     {% if registro.diagnostico %}
     <p>{{registro.observaciones}}</p>
     {% else %}
@@ -207,4 +219,577 @@
         <button class="btn btn-secondary">Cerrar</button>
     </a>
 </div>
+
+
+
+<!-- MODAL PARA EDITAR EXAMENES PRINCIPALES -->
+
+<div class="modal fade" id="editarExamenesPrincipales" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar examenes principales</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <!-- EDITAR EXAMEN PRINCIPAL -->
+                {% if registro.examen_principal_bioquimico %}
+                <form method="POST" action="{% url 'e_e_principal_bioquimico' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_principal_bioquimico" id="principalBioquimico"
+                                        checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="principalBioquimico">
+                                Bioquímico
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_principal_bioquimico' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_principal_bioquimico" id="principalBioquimico">
+                                </div>
+                            </div>
+                            <label class="form-control" for="principalBioquimico">
+                                Bioquímico
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+
+
+                <!-- EDITAR EXAMEN PRINCIPAL -->
+                <div class="my-2">
+                    {% if registro.examen_principal_orina %}
+                    <form method="POST" action="{% url 'e_e_principal_orina' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_principal_orina" id="principalOrina"
+                                            checked>
+                                    </div>
+                                </div>
+                                <label class="form-control" for="principalOrina">
+                                    Orina
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{% url 'e_e_principal_orina' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_principal_orina" id="principalOrina">
+                                    </div>
+                                </div>
+                                <label class="form-control" for="principalOrina">
+                                    Orina
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+
+
+
+                <!-- EDITAR EXAMEN PRINCIPAL -->
+                {% if registro.examen_principal_heces %}
+                <form method="POST" action="{% url 'e_e_principal_heces' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_principal_heces" id="principalHeces" checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="principalHeces">
+                                Heces
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_principal_heces' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_principal_heces" id="principalHeces">
+                                </div>
+                            </div>
+                            <label class="form-control" for="principalHeces">
+                                Heces
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+
+
+
+                <!-- EDITAR EXAMEN PRINCIPAL -->
+                <div class="mt-2">
+                    {% if registro.examen_principal_glucosa %}
+                    <form method="POST" action="{% url 'e_e_principal_glucosa' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_principal_glucosa" id="principalGlucosa"
+                                            checked>
+                                    </div>
+                                </div>
+                                <label class="form-control" for="principalGlucosa">
+                                    Glucosa
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{% url 'e_e_principal_glucosa' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_principal_glucosa" id="principalGlucosa">
+                                    </div>
+                                </div>
+                                <label class="form-control" for="principalGlucosa">
+                                    Glucosa
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- MODAL PARA EDITAR EXAMENES RESONANCIA MAGNÉTICA -->
+<div class="modal fade" id="editarExamenesResonancia" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar examenes de resonancia magnética</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <!-- EDITAR EXAMEN RESONANCIA MAGNÉTICA -->
+                {% if registro.examen_resonancia_magnetica_torax %}
+                <form method="POST" action="{% url 'e_e_resonancia_torax' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_resonancia_magnetica_torax" id="resonanciaTorax"
+                                        checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="resonanciaTorax">
+                                Torax
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_resonancia_torax' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_resonancia_magnetica_torax"
+                                        id="resonanciaTorax">
+                                </div>
+                            </div>
+                            <label class="form-control" for="resonanciaTorax">
+                                Torax
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+
+
+                <!-- EDITAR EXAMEN RESONANCIA MAGNÉTICA -->
+                {% if registro.examen_resonancia_magnetica_columna %}
+                <form method="POST" action="{% url 'e_e_resonancia_columna' registro.id %}">
+                    {% csrf_token %}
+                    <div class="my-2">
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_resonancia_magnetica_columna"
+                                            id="resonanciaColumna" checked>
+                                    </div>
+                                </div>
+                                <label class="form-control" for="resonanciaColumna">
+                                    Columna
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_resonancia_columna' registro.id %}">
+                    {% csrf_token %}
+                    <div class="my-2">
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_resonancia_magnetica_columna"
+                                            id="resonanciaColumna">
+                                    </div>
+                                </div>
+                                <label class="form-control" for="resonanciaColumna">
+                                    Columna
+                                </label>
+                            </div>
+                            <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                </form>
+                {% endif %}
+            </div>
+
+
+
+            <!-- EDITAR EXAMEN RESONANCIA MAGNÉTICA -->
+            {% if registro.examen_resonancia_magnetica_cabeza %}
+            <form method="POST" action="{% url 'e_e_resonancia_cabeza' registro.id %}">
+                {% csrf_token %}
+                <div class="d-flex">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="examen_resonancia_magnetica_cabeza" id="resonanciaCabeza"
+                                    checked>
+                            </div>
+                        </div>
+                        <label class="form-control" for="resonanciaCabeza">
+                            Cabeza
+                        </label>
+                    </div>
+                    <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                </div>
+            </form>
+            {% else %}
+            <form method="POST" action="{% url 'e_e_resonancia_cabeza' registro.id %}">
+                {% csrf_token %}
+                <div class="d-flex">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="examen_resonancia_magnetica_cabeza" id="resonanciaCabeza">
+                            </div>
+                        </div>
+                        <label class="form-control" for="resonanciaCabeza">
+                            Cabeza
+                        </label>
+                    </div>
+                    <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                </div>
+            </form>
+            {% endif %}
+
+
+
+            <!-- EDITAR EXAMEN RESONANCIA MAGNÉTICA -->
+            <div class="mt-2">
+                {% if registro.examen_resonancia_magnetica_abdomen %}
+                <form method="POST" action="{% url 'e_e_resonancia_abdomen' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_resonancia_magnetica_abdomen"
+                                        id="resonanciaAbdomen" checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="resonanciaAbdomen">
+                                Glucosa
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_resonancia_abdomen' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_resonancia_magnetica_abdomen"
+                                        id="resonanciaAbdomen">
+                                </div>
+                            </div>
+                            <label class="form-control" for="resonanciaAbdomen">
+                                Glucosa
+                            </label>
+                        </div>
+                        <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<!-- MODAL PARA EDITAR EXAMENES ECOGRAFÍA -->
+<div class="modal fade" id="editarExamenesEcografia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar examenes de ecografía</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <!-- EDITAR EXAMEN ECOGRAFÍA -->
+                {% if registro.examen_ecografia_cabeza %}
+                <form method="POST" action="{% url 'e_e_ecografia_cabeza' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_ecografia_cabeza" id="ecografiaCabeza" checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="ecografiaCabeza">
+                                Cabeza
+                            </label>
+                        </div>
+                        <button class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_ecografia_cabeza' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_ecografia_cabeza" id="ecografiaCabeza">
+                                </div>
+                            </div>
+                            <label class="form-control" for="ecografiaCabeza">
+                                Cabeza
+                            </label>
+                        </div>
+                        <button class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+
+
+                <!-- EDITAR EXAMEN ECOGRAFÍA -->
+                <div class="my-2">
+                    {% if registro.examen_ecografia_torax %}
+                    <form method="POST" action="{% url 'e_e_ecografia_torax' registro.id %}">
+                        {% csrf_token %}
+                        <div class="my-2">
+                            <div class="d-flex">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="examen_ecografia_torax" id="ecografiaTorax"
+                                                checked>
+                                        </div>
+                                    </div>
+                                    <label class="form-control" for="ecografiaTorax">
+                                        Orina
+                                    </label>
+                                </div>
+                                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                            </div>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{% url 'e_e_ecografia_torax' registro.id %}">
+                        {% csrf_token %}
+                        <div class="my-2">
+                            <div class="d-flex">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="examen_ecografia_torax" id="ecografiaTorax">
+                                        </div>
+                                    </div>
+                                    <label class="form-control" for="ecografiaTorax">
+                                        Orina
+                                    </label>
+                                </div>
+                                <button href="" class="btn btn-secondary ml-1">Actualizar</button>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+
+
+
+                <!-- EDITAR EXAMEN ECOGRAFIA ABDOMEN -->
+                {% if registro.examen_ecografia_abdomen %}
+                <form method="POST" action="{% url 'e_e_ecografia_abdomen' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_ecografia_abdomen" id="ecografiaAbdomen"
+                                        checked>
+                                </div>
+                            </div>
+                            <label class="form-control" for="ecografiaAbdomen">
+                                Heces
+                            </label>
+                        </div>
+                        <button class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% else %}
+                <form method="POST" action="{% url 'e_e_ecografia_abdomen' registro.id %}">
+                    {% csrf_token %}
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="examen_ecografia_abdomen" id="ecografiaAbdomen">
+                                </div>
+                            </div>
+                            <label class="form-control" for="ecografiaAbdomen">
+                                Heces
+                            </label>
+                        </div>
+                        <button class="btn btn-secondary ml-1">Actualizar</button>
+                    </div>
+                </form>
+                {% endif %}
+
+
+
+                <!-- EDITAR EXAMEN ECOGRAFIA -->
+                <div class="mt-2">
+                    {% if registro.examen_ecografia_brazo %}
+                    <form method="POST" action="{% url 'e_e_ecografia_brazo' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_ecografia_brazo" id="ecografiaBrazo"
+                                            checked>
+                                    </div>
+                                </div>
+                                <label class="form-control" for="ecografiaBrazo">
+                                    Glucosa
+                                </label>
+                            </div>
+                            <button class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="{% url 'e_e_ecografia_brazo' registro.id %}">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="examen_ecografia_brazo" id="ecografiaBrazo">
+                                    </div>
+                                </div>
+                                <label class="form-control" for="ecografiaBrazo">
+                                    Glucosa
+                                </label>
+                            </div>
+                            <button class="btn btn-secondary ml-1">Actualizar</button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
