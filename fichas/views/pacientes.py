@@ -1,18 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView
+from django.http import HttpResponse
 
 from ..decorators import paciente_required
 from ..forms import PacienteSignUpForm
-from ..models import Registro, User
+from ..models import Registro, User, Paciente
 
 
 @login_required
 @paciente_required
 def home_paciente(request):
-    username_paciente = request.user.username
-    id_paciente = User.objects.filter(username=username_paciente).values()[0]["id"]
-    fichas = Registro.objects.filter(paciente_id=id_paciente)
+    id = request.user.id
+    fichas = Registro.objects.filter(paciente_id=id)
 
     return render(request, "pacientes/home_paciente.html", {"fichas": fichas})
 
@@ -46,4 +46,81 @@ class PacienteSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         # login(self.request, user)
-        return redirect("medicos:home")
+        return redirect("home_medico")
+
+@login_required
+@paciente_required
+def info_paciente(request):
+    paciente_id = request.user.id
+    paciente = User.objects.get(id=paciente_id)
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_username_paciente(request, id):
+    username = request.POST.get("username")
+    paciente = User.objects.get(id=id)
+    paciente.username = username
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_nombres_paciente(request, id):
+    nombres = request.POST.get("nombres")
+    paciente = User.objects.get(id=id)
+    paciente.first_name = nombres
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_apellidos_paciente(request, id):
+    apellidos = request.POST.get("last_name")
+    paciente = User.objects.get(id=id)
+    paciente.last_name = apellidos
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_genero_paciente(request, id):
+    genero = request.POST.get("genero")
+    paciente = User.objects.get(id=id)
+    paciente.genero = genero
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_telefono_paciente(request, id):
+    telefono = request.POST.get("telefono")
+    paciente = User.objects.get(id=id)
+    paciente.telefono = telefono
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def editar_email_paciente(request, id):
+    email = request.POST.get("email")
+    paciente = User.objects.get(id=id)
+    paciente.email = email
+    paciente.save()
+    data = {"paciente": paciente}
+    return render(request, "pacientes/info_paciente.html", data)
+
+@login_required
+@paciente_required
+def eliminar_paciente(request, id):
+    paciente = Paciente.objects.get(user_id=id)
+    paciente.delete()
+    paciente = User.objects.get(id=id)
+    paciente.delete()
+    return redirect("home")

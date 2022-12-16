@@ -32,9 +32,10 @@
     <thead>
         <tr>
             <th class="text-center">ID</th>
-            <th class="text-center">Nombre del paciente</th>
+            <th class="text-center">RUT del paciente</th>
+            <th class="text-center">Nombres</th>
+            <th class="text-center">Teléfono</th>
             <th class="text-center">Último inicio de sesión</th>
-            <th class="text-center">Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -42,14 +43,32 @@
         <tr>
             <td class="text-center">{{paciente.id}}</td>
             <td class="text-center">{{paciente.username}}</td>
+            <td class="text-center">{{paciente.first_name}}</td>
+            <td class="text-center">{{paciente.telefono}}</td>
             <td class="text-center">{{paciente.last_login}}</td>
-            <td class="text-center">
-                <a href="#" class="btn btn-success">Editar</a>
-                <a href="#" data-toggle="modal" data-target="#eliminarPaciente" class="btn btn-danger">Eliminar</a>
-            </td>
         </tr>
+        <div class="modal" id="eliminarPaciente" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar paciente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Al hacer click en confirmar el paciente se eliminará permanentemente.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'eliminar_paciente_medico' paciente.id %}" class="btn btn-danger">Crear nueva cuenta de paciente</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+        </div>
         {% empty %}
         <tr>
+            <td class="text-center">Vacío</td>
             <td class="text-center">Vacío</td>
             <td class="text-center">Vacío</td>
             <td class="text-center">Vacío</td>
@@ -60,24 +79,5 @@
 
 
 
-<div class="modal" id="eliminarPaciente" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock %}

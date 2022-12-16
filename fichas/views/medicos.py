@@ -5,35 +5,39 @@ from django.views.generic import CreateView
 
 from ..decorators import medico_required, superuser_required
 from ..forms import RegistroForm, MedicoSignUpForm
-from ..models import User, Registro
+from ..models import User, Registro, Paciente
 
 
 @login_required
 @medico_required
 def home(request):
+    pacientes = User.objects.filter(is_paciente=1)
     if request.method == "GET":
-        pacientes = User.objects.filter(is_paciente=1)
         return render(request, "medicos/home.html", {"pacientes": pacientes})
 
+    if request.method == "POST":
     # Obtiene el nombre desde el campo de input, si el nombre existe entonces devuelve el ID del usuario
     # y redirije a una página donde se listan todas sus fichas médicas
-    try:
-        nombre_paciente = request.POST.get("search")
-        id_paciente = User.objects.filter(username=nombre_paciente).values()[0]["id"]
-    except:
-        return render(
-            request,
-            "medicos/home.html",
-            {"mensaje": "Error, el nombre no se encuentra registrado"},
-        )
+        try:
+            nombre_paciente = request.POST.get("search")
+            id_paciente = User.objects.filter(username=nombre_paciente).values()[0]["id"]
+        except:
+            return render(
+                request,
+                "medicos/home.html",
+                {
+                    "mensaje": "Error, el nombre no se encuentra registrado",
+                    "pacientes": pacientes,
+                },
+            )
 
-    if "crear_nuevo_registro" in request.POST:
-        return redirect("medicos:registrar_ficha", id_paciente)
+        if "crear_nuevo_registro" in request.POST:
+            return redirect("registrar_ficha", id_paciente)
 
-    elif "visualizar_registro" in request.POST:
-        return redirect("medicos:listar_fichas", id_paciente)
+        elif "visualizar_registro" in request.POST:
+            return redirect("listar_fichas", id_paciente)
 
-    return render(request, "medicos/home.html")
+    return render(request, "medicos/home.html", {"pacientes": pacientes})
 
 
 @login_required
@@ -53,7 +57,7 @@ def crear_registro(request, id_paciente):
 
         return render(request, "medicos/fichas_form.html", data)
 
-# Exámenes principales
+    # Exámenes principales
     examen_principal_bioquimico = request.POST.get("examen_principal_bioquimico")
     examen_principal_orina = request.POST.get("examen_principal_orina")
     examen_principal_heces = request.POST.get("examen_principal_heces")
@@ -107,7 +111,7 @@ def crear_registro(request, id_paciente):
     }
 
     request.session["ficha"] = data
-    return redirect("medicos:confirmacion")
+    return redirect("confirmacion")
 
 
 @login_required
@@ -121,7 +125,7 @@ def confirmar_registro(request):
             ficha = ficha.save()
             del request.session
 
-        return redirect("home")
+        return redirect("home_medico")
 
     nombre_medico = request.user.username
     nombre_paciente = User.objects.filter(id=data["paciente"]).values()[0]["username"]
@@ -152,37 +156,212 @@ def info_fichas(request, id_ficha):
 
 
 @login_required
-@superuser_required
-def admin_panel(request):
-    medicos = User.objects.filter(is_medico=1)
-    return render(request, "admin/admin_panel.html", {"medicos": medicos})
-
-
-@login_required
 @medico_required
 def listar_fichas(request, id_paciente):
     fichas = Registro.objects.filter(paciente_id=id_paciente)
     return render(request, "medicos/listar_fichas.html", {"fichas": fichas})
 
 
-class MedicoSignUpView(CreateView):
-    model = User
-    form_class = MedicoSignUpForm
-    template_name = "registration/signup_form.html"
 
-    def get_context_data(self, **kwargs):
-        kwargs["user_type"] = "medico"
-        return super().get_context_data(**kwargs)
-
-    def form_valid(self, form):
-        user = form.save()
-        # login(self.request, user)
-        return redirect("admin_panel")
+@login_required
+@medico_required
+def eliminar_paciente(request, id):
+    paciente = Paciente.objects.get(user_id=id)
+    paciente.delete()
+    paciente = User.objects.get(id=id)
+    paciente.delete()
+    return redirect("home_medico")
 
 
 @login_required
-@superuser_required
-def eliminar_medico(request, id):
-    medico = User.objects.get(id=id)
-    medico.delete()
-    return redirect("home")
+@medico_required
+def editar_examen_principal_bioquimico(request, id):
+    examen = request.POST.get("examen_principal_bioquimico")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_bioquimico = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_orina(request, id):
+    examen = request.POST.get("examen_principal_orina")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_orina = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_heces(request, id):
+    examen = request.POST.get("examen_principal_heces")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_heces = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+
+@login_required
+@medico_required
+def editar_examen_principal_glucosa(request, id):
+    examen = request.POST.get("examen_principal_glucosa")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_principal_glucosa = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_torax(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_torax")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_torax = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_columna(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_columna")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_columna = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_cabeza(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_cabeza")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_cabeza = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_resonancia_abdomen(request, id):
+    examen = request.POST.get("examen_resonancia_magnetica_abdomen")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_resonancia_magnetica_abdomen = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_cabeza(request, id):
+    examen = request.POST.get("examen_ecografia_cabeza")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_cabeza = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_torax(request, id):
+    examen = request.POST.get("examen_ecografia_torax")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_torax = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_abdomen(request, id):
+    examen = request.POST.get("examen_ecografia_abdomen")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_abdomen = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_examen_ecografia_brazo(request, id):
+    examen = request.POST.get("examen_ecografia_brazo")
+    if examen is None:
+        examen = False
+    elif examen == "on":
+        examen = True
+    registro = Registro.objects.get(id=id)
+    registro.examen_ecografia_brazo = examen
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def eliminar_ficha(request, id):
+    registro = Registro.objects.get(id=id)
+    registro.delete()
+    return redirect("home_medico")
+
+@login_required
+@medico_required
+def editar_diagnostico(request, id):
+    diagnostico = request.POST.get("diagnostico")
+    registro = Registro.objects.get(id=id)
+    registro.diagnostico = diagnostico
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_tratamiento(request, id):
+    tratamiento = request.POST.get("tratamiento")
+    registro = Registro.objects.get(id=id)
+    registro.tratamiento = tratamiento
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
+
+@login_required
+@medico_required
+def editar_observaciones(request, id):
+    observaciones = request.POST.get("observaciones")
+    registro = Registro.objects.get(id=id)
+    registro.observaciones = observaciones
+    registro.save()
+    return redirect("info_fichas", id_ficha=id)
