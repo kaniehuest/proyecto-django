@@ -91,20 +91,20 @@ WSGI_APPLICATION = "clinica.wsgi.application"
 # To switch to SQLite3 database comment the mysql configuration and uncomment sqlite3
 DATABASES = {
     ##### Descomenta el bloque de abajo para la instalación manual    
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    #"default": {
+    #    "ENGINE": "django.db.backends.sqlite3",
+    #    "NAME": BASE_DIR / "db.sqlite3",
+    #}
 
     ##### Comenta o elimina el bloque de abajo para la instalación manual
-    # "default": {
-    #     "ENGINE": "django.db.backends.mysql",
-    #     "NAME": os.getenv("MYSQL_DATABASE", "mysql"),
-    #     "USER": os.getenv("MYSQL_USER", "root"),
-    #     "PASSWORD": os.getenv("MYSQL_PASSWORD", ""),
-    #     "HOST": os.getenv("DB_HOST", "db"),
-    #     "PORT": os.getenv("DB_PORT", "3306"),
-    # }
+     "default": {
+         "ENGINE": "django.db.backends.mysql",
+         "NAME": os.getenv("MYSQL_DATABASE", "mysql"),
+         "USER": os.getenv("MYSQL_USER", "root"),
+         "PASSWORD": os.getenv("MYSQL_PASSWORD", ""),
+         "HOST": os.getenv("DB_HOST", "db"),
+         "PORT": os.getenv("DB_PORT", "3306"),
+     }
 }
 
 
