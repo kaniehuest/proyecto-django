@@ -9,14 +9,14 @@ urlpatterns = [
 
     # Admin 
     path("superuser/", superuser.admin_panel, name="admin_panel"),
-    path("superuser/eliminar/<int:id>", superuser.eliminar_medico, name="eliminar_medico"),
-    path("superuser/info/<int:id>", superuser.info_medico, name="info_medico"),
-    path("superuser/editar/username/<int:id>", superuser.editar_username_medico, name="editar_username_medico"),
-    path("superuser/editar/nombres/<int:id>", superuser.editar_nombres_medico, name="editar_nombres_medico"),
-    path("superuser/editar/apellidos/<int:id>", superuser.editar_apellidos_medico, name="editar_apellidos_medico"),
-    path("superuser/editar/genero/<int:id>", superuser.editar_genero_medico, name="editar_genero_medico"),
-    path("superuser/editar/telefono/<int:id>", superuser.editar_telefono_medico, name="editar_telefono_medico"),
-    path("superuser/editar/email/<int:id>", superuser.editar_email_medico, name="editar_email_medico"),
+    path("superuser/eliminar/<int:id>/", superuser.eliminar_medico, name="eliminar_medico"),
+    path("superuser/info/<int:id>/", superuser.info_medico, name="info_medico"),
+    path("superuser/editar/username/<int:id>/", superuser.editar_username_medico, name="editar_username_medico"),
+    path("superuser/editar/nombres/<int:id>/", superuser.editar_nombres_medico, name="editar_nombres_medico"),
+    path("superuser/editar/apellidos/<int:id>/", superuser.editar_apellidos_medico, name="editar_apellidos_medico"),
+    path("superuser/editar/genero/<int:id>/", superuser.editar_genero_medico, name="editar_genero_medico"),
+    path("superuser/editar/telefono/<int:id>/", superuser.editar_telefono_medico, name="editar_telefono_medico"),
+    path("superuser/editar/email/<int:id>/", superuser.editar_email_medico, name="editar_email_medico"),
 
     # Paciente
     path("pacientes/", pacientes.home_paciente, name="home_paciente"),
@@ -28,7 +28,7 @@ urlpatterns = [
     path("pacientes/editar/genero/<int:id>/", pacientes.editar_genero_paciente, name="editar_genero_paciente"),
     path("pacientes/editar/telefono/<int:id>/", pacientes.editar_telefono_paciente, name="editar_telefono_paciente"),
     path("pacientes/editar/email/<int:id>/", pacientes.editar_email_paciente, name="editar_email_paciente"),
-    path("pacientes/eliminar/<int:id>", pacientes.eliminar_paciente, name="eliminar_paciente_paciente"),
+    path("pacientes/eliminar/<int:id>/", pacientes.eliminar_paciente, name="eliminar_paciente_paciente"),
 
     # Medico
     path("medicos/", medicos.home, name="home_medico"),
