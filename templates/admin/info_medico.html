@@ -55,7 +55,8 @@
             <label for="id_genero" class=" requiredField">Genero</label>
             <div class="d-flex">
                     <select name="genero" class="select form-control" id="id_genero">
-                        <option value="MASCULINO" selected>masculino</option>
+                        <option value="{{medico.genero}}" selected>{{medico.genero}}</option>
+                        <option value="MASCULINO">masculino</option>
                         <option value="FEMENINO">femenino</option>
                     </select>
                 <button href="" class="btn btn-secondary ml-1">Actualizar</button>
